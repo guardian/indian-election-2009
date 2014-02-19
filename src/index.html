@@ -5,13 +5,36 @@
     <title>India</title>
 
     <style>
-        #output { width: 500px; height: 400px;}
+        #output { width: 500px;}
+        table {
+           border-collapse: collapse;
+        }
+
+        th {
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        td, th {
+            margin: 0;
+             border: 1px solid #999;
+        }
     </style>
 </head>
     <body>
         <textarea id="output"></textarea>
 
+        <div id="target1">
+            <h2>Most marginal seats</h2>
+        </div>
+
+        <div id="target2">
+            <h2>Safest seats</h2>
+        </div>
+
         <script src="js/jquery.min.js"></script>
+        <script src="js/list.js"></script>
         <script src="js/india.js"></script>
     </body>
+
 </html>
