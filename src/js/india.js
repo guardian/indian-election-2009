@@ -3,10 +3,27 @@ var data;
 
 
 // Data wrangling inside here
+function bjp2inc() {
+    var tableData = {
+        columns: ['state', 'constituency', 'AAP standing'],
+        rows: []
+    };
+
+    data.forEach(function( constituency ) {
+        if ( constituency.candidates[0].party === 'INC' &&  constituency.candidates[1].party === 'BJP'  ) {
+            tableData.rows.push([
+                constituency.state,
+                constituency.constituency,
+                constituency.aap_standing
+            ]);
+        }
+    });
+
+    appendTable(tableData, document.querySelector('#target3'));
+}
+
+
 function countBJPWinners() {
-
-    var winningBJP = [];
-
     var tableData = {
         columns: ['state', 'constituency', 'position'],
         rows: []
@@ -21,13 +38,10 @@ function countBJPWinners() {
                         constituency.constituency,
                         candidate.position
                     ]);
-                    winningBJP.push(candidate);
                 }
             }
         });
     });
-
-    // bjpSeats
 
     appendTable(tableData, document.querySelector('#bjpSeats'));
 }
@@ -91,6 +105,7 @@ function safestSeats() {
 function handleJSONSuccess(_data) {
     data = _data;
     // Processing tasks
+    bjp2inc();
     countBJPWinners();
     mostMarginalSeats();
     safestSeats();
