@@ -1,16 +1,53 @@
-// Setup
-var data;
+var GI_INDIA = GI_INDIA || { tasks: [] };
 
-
-// Data wrangling inside here
-function bjp2inc() {
+/**
+ * SAMPLE TASK:
+ *     Process data and store in rows.
+ *     eg. Out put first 5 candidates who's name begins with 'M'
+ */
+GI_INDIA.tasks.push(function TASK_NAME() {
+    // Setup the table
     var tableData = {
-        columns: ['state', 'constituency', 'AAP standing'],
+        columns: ['Canidate name', 'Canidate party'],
+        target: ('#example'),
         rows: []
     };
 
-    data.forEach(function( constituency ) {
-        if ( constituency.candidates[0].party === 'INC' &&  constituency.candidates[1].party === 'BJP'  ) {
+
+    var candidates = [];
+    GI_INDIA.data.forEach(function( constituency ) {
+        var mCandidates = constituency.candidates.filter(function(candidate) {
+                return candidate.candidate_name[0].toLowerCase() === 'm';
+            });
+
+        if (mCandidates.length > 0) candidates = candidates.concat(mCandidates);
+    });
+
+    for (var i = 0; i < 5; i++) {
+        tableData.rows.push( [
+            candidates[i].candidate_name,
+            candidates[i].party
+        ]);
+    }
+
+    return tableData;
+});
+
+
+/**
+ * TASK: Find all constituencies where BJP 2nd to INC
+ */
+GI_INDIA.tasks.push(function bjp2inc() {
+    var tableData = {
+        columns: ['state', 'constituency', 'AAP standing'],
+        target: ('#bjp2inc'),
+        rows: []
+    };
+
+    GI_INDIA.data.forEach(function( constituency ) {
+        if ( constituency.candidates[0].party === 'INC' &&
+             constituency.candidates[1].party === 'BJP')
+        {
             tableData.rows.push([
                 constituency.state,
                 constituency.constituency,
@@ -19,17 +56,21 @@ function bjp2inc() {
         }
     });
 
-    appendTable(tableData, document.querySelector('#target3'));
-}
+    return tableData;
+});
 
 
-function countBJPWinners() {
+/**
+ * TASK: Find all constituencies were BJP is 1st or 2nd
+ */
+GI_INDIA.tasks.push(function bjpSeats() {
     var tableData = {
         columns: ['state', 'constituency', 'position'],
+        target: '#bjpSeats',
         rows: []
     };
 
-    data.forEach(function( constituency ) {
+    GI_INDIA.data.forEach(function( constituency ) {
         constituency.candidates.forEach(function( candidate ) {
             if ( candidate.party === 'BJP' ) {
                 if (candidate.position === 1 || candidate.position === 2) {
@@ -43,79 +84,100 @@ function countBJPWinners() {
         });
     });
 
-    appendTable(tableData, document.querySelector('#bjpSeats'));
-}
+    return tableData;
+});
 
 
-function mostMarginalSeats() {
-    data.sort(function(a, b) {
+/**
+ * TASK: Find all the marginal seats.
+ */
+GI_INDIA.tasks.push(function marginalSeats() {
+    var tableData = {
+        columns: ['state', 'constituency', '1st party', '1st total', '2nd party', '2nd total', 'diff'],
+        target: '#marginal',
+        rows: []
+    };
+
+    // Modifies original GI_INDIA.data!
+    GI_INDIA.data.sort(function(a, b) {
         return (a.candidates[0].votes_secured.total - a.candidates[1].votes_secured.total) -
             (b.candidates[0].votes_secured.total - b.candidates[1].votes_secured.total);
     });
 
-    var tableData = {
-        columns: ['state', 'constituency', '1st party', '1st total', '2nd party', '2nd total', 'diff'],
-        rows: []
-    };
 
     for( var i = 0; i < 10; i++) {
-        var diff = data[i].candidates[0].votes_secured.total - data[i].candidates[1].votes_secured.total;
+        var diff = GI_INDIA.data[i].candidates[0].votes_secured.total - GI_INDIA.data[i].candidates[1].votes_secured.total;
 
         tableData.rows.push([
-            data[i].state,
-            data[i].constituency,
-            data[i].candidates[0].party,
-            data[i].candidates[0].votes_secured.total,
-            data[i].candidates[1].party,
-            data[i].candidates[1].votes_secured.total,
+            GI_INDIA.data[i].state,
+            GI_INDIA.data[i].constituency,
+            GI_INDIA.data[i].candidates[0].party,
+            GI_INDIA.data[i].candidates[0].votes_secured.total,
+            GI_INDIA.data[i].candidates[1].party,
+            GI_INDIA.data[i].candidates[1].votes_secured.total,
             diff
         ]);
     }
 
-    appendTable(tableData, document.querySelector('#target1'));
-}
+    return tableData;
+});
 
 
-function safestSeats() {
-    data.reverse();
-
+/**
+ * TASK: Find all the safe seats.
+ */
+GI_INDIA.tasks.push(function safeSeats() {
     var tableData = {
         columns: ['state', 'constituency', '1st party', '1st total', '2nd party', '2nd total', 'diff'],
+        target: '#safeSeats',
         rows: []
     };
 
+    // Modifies original GI_INDIA.data!
+    GI_INDIA.data.reverse();
+
     for( var i = 0; i < 10; i++) {
-        var diff = data[i].candidates[0].votes_secured.total - data[i].candidates[1].votes_secured.total;
+        var diff = GI_INDIA.data[i].candidates[0].votes_secured.total - GI_INDIA.data[i].candidates[1].votes_secured.total;
         tableData.rows.push([
-            data[i].state,
-            data[i].constituency,
-            data[i].candidates[0].party,
-            data[i].candidates[0].votes_secured.total,
-            data[i].candidates[1].party,
-            data[i].candidates[1].votes_secured.total,
+            GI_INDIA.data[i].state,
+            GI_INDIA.data[i].constituency,
+            GI_INDIA.data[i].candidates[0].party,
+            GI_INDIA.data[i].candidates[0].votes_secured.total,
+            GI_INDIA.data[i].candidates[1].party,
+            GI_INDIA.data[i].candidates[1].votes_secured.total,
             diff
         ]);
     }
 
-    appendTable(tableData, document.querySelector('#target2'));
-}
+    return tableData;
+});
 
 
-// Inner workings
-function handleJSONSuccess(_data) {
-    data = _data;
-    // Processing tasks
-    bjp2inc();
-    countBJPWinners();
-    mostMarginalSeats();
-    safestSeats();
-}
 
 
-function appendTable(_data, _target, _id) {
-    var taget = _target || document.body;
-    var tableEl = createTableEl(_data, _data.rows.length);
-    var id = _id || createRandomID('table_');
+
+
+
+
+// INNER WORKINGS
+GI_INDIA.processTasks = function() {
+    GI_INDIA.tasks.forEach(function(task) {
+        var tableData = task();
+        GI_INDIA.appendTable(tableData, tableData.target);
+    });
+};
+
+
+GI_INDIA.handleJSONSuccess = function(_data) {
+    GI_INDIA.data = _data;
+    GI_INDIA.processTasks();
+};
+
+
+GI_INDIA.appendTable = function(_data, _target, _id) {
+    var taget = (_target) ? document.querySelector(_target) : document.body;
+    var tableEl = GI_INDIA.createTableEl(_data, _data.rows.length);
+    var id = _id || GI_INDIA.createRandomID('table_');
 
     var wrapperEl = document.createElement('div');
     wrapperEl.setAttribute('id', id);
@@ -123,17 +185,19 @@ function appendTable(_data, _target, _id) {
     taget.appendChild(wrapperEl);
 
     var valNames = _data.columns.map(function(col) {
-        return createID_Name(col);
+        return GI_INDIA.createID_Name(col);
     });
 
-    var testList = new List(id, { valueNames: valNames });
-}
+    if (!GI_INDIA.hasOwnProperty('tables')) GI_INDIA.tables = [];
+
+    GI_INDIA.tables.push( new List(id, { valueNames: valNames }) );
+};
 
 
 /**
  * Create table
  */
-function createTableEl(_data, _rowCount) {
+GI_INDIA.createTableEl = function(_data, _rowCount) {
     var rowCount = _rowCount || 10;
     var tableEl = document.createElement('table');
     var theadEl = document.createElement('thead');
@@ -148,7 +212,7 @@ function createTableEl(_data, _rowCount) {
         var th = document.createElement('th');
         th.innerHTML = col;
         th.classList.add('sort');
-        th.setAttribute('data-sort', createID_Name(col));
+        th.setAttribute('data-sort', GI_INDIA.createID_Name(col));
         trHeadEl.appendChild(th);
     });
 
@@ -158,7 +222,7 @@ function createTableEl(_data, _rowCount) {
         row.forEach(function(cell, index) {
             var td = document.createElement('td');
             td.innerHTML = cell;
-            td.setAttribute('class', createID_Name(_data.columns[index]));
+            td.setAttribute('class', GI_INDIA.createID_Name(_data.columns[index]));
             tr.appendChild(td);
         });
         tbodyEl.appendChild(tr);
@@ -167,27 +231,38 @@ function createTableEl(_data, _rowCount) {
     tableEl.appendChild(theadEl);
     tableEl.appendChild(tbodyEl);
     return tableEl;
-}
+};
 
 
-function createRandomID(_prefix) {
+GI_INDIA.createRandomID = function(_prefix) {
     var prefix = _prefix || 'rndID_';
     var randomNumber = '' + Math.random();
     return prefix + randomNumber.replace('.', '');
-}
+};
 
-function createID_Name(title) {
+
+GI_INDIA.createID_Name = function(title) {
     return 'list_' + title.toLowerCase().replace(/[\W\s]/, '');
-}
+};
 
-function outputData(data) {
+
+GI_INDIA.outputData = function(data) {
     outputContainer.innerHTML += JSON.stringify(data) + '\n';
-}
+};
 
-function handleJSONError() {
+
+GI_INDIA.handleJSONError = function() {
     console.error('Problem fetching JSON');
-}
+};
 
-$.getJSON('processed_data.json')
-    .done(handleJSONSuccess)
-    .fail(handleJSONError);
+
+GI_INDIA.init = function() {
+    var dataFile = 'processed_data.json';
+
+    $.getJSON(dataFile)
+        .done(GI_INDIA.handleJSONSuccess)
+        .fail(GI_INDIA.handleJSONError);
+};
+
+
+GI_INDIA.init();
