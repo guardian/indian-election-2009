@@ -1,5 +1,4 @@
 // Setup
-var outputContainer = document.querySelector('#output');
 var data;
 
 
@@ -8,18 +7,29 @@ function countBJPWinners() {
 
     var winningBJP = [];
 
+    var tableData = {
+        columns: ['state', 'constituency', 'position'],
+        rows: []
+    };
+
     data.forEach(function( constituency ) {
         constituency.candidates.forEach(function( candidate ) {
             if ( candidate.party === 'BJP' ) {
                 if (candidate.position === 1 || candidate.position === 2) {
+                    tableData.rows.push([
+                        constituency.state,
+                        constituency.constituency,
+                        candidate.position
+                    ]);
                     winningBJP.push(candidate);
                 }
             }
         });
     });
 
+    // bjpSeats
 
-    outputData('BJP in 1st or 2nd: ' + winningBJP.length);
+    appendTable(tableData, document.querySelector('#bjpSeats'));
 }
 
 
