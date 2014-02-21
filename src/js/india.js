@@ -1,46 +1,12 @@
 var GI_INDIA = GI_INDIA || { tasks: [] };
 
 /**
- * SAMPLE TASK:
- *     Process data and store in rows.
- *     eg. Out put first 5 candidates who's name begins with 'M'
- */
-GI_INDIA.tasks.push(function TASK_NAME() {
-    // Setup the table
-    var tableData = {
-        columns: ['Canidate name', 'Canidate party'],
-        target: ('#example'),
-        rows: []
-    };
-
-
-    var candidates = [];
-    GI_INDIA.data.forEach(function( constituency ) {
-        var mCandidates = constituency.candidates.filter(function(candidate) {
-                return candidate.candidate_name[0].toLowerCase() === 'm';
-            });
-
-        if (mCandidates.length > 0) candidates = candidates.concat(mCandidates);
-    });
-
-    for (var i = 0; i < 5; i++) {
-        tableData.rows.push( [
-            candidates[i].candidate_name,
-            candidates[i].party
-        ]);
-    }
-
-    return tableData;
-});
-
-
-/**
  * TASK: Find all constituencies where BJP 2nd to INC
  */
 GI_INDIA.tasks.push(function bjp2inc() {
-    var tableData = {
+    var dataset = {
+        title: 'BJP Second to INC',
         columns: ['state', 'constituency', 'AAP standing'],
-        target: ('#bjp2inc'),
         rows: [],
         constituencies: []
     };
@@ -49,17 +15,17 @@ GI_INDIA.tasks.push(function bjp2inc() {
         if ( constituency.candidates[0].party === 'INC' &&
              constituency.candidates[1].party === 'BJP')
         {
-            tableData.rows.push([
+            dataset.rows.push([
                 constituency.state,
                 constituency.constituency,
                 constituency.aap_standing
             ]);
 
-            tableData.constituencies.push(constituency);
+            dataset.constituencies.push(constituency);
         }
     });
 
-    return tableData;
+    return dataset;
 });
 
 
@@ -68,6 +34,7 @@ GI_INDIA.tasks.push(function bjp2inc() {
  */
 GI_INDIA.tasks.push(function bjpSeats() {
     var tableData = {
+        title: 'BJP is 1st or 2nd',
         columns: ['state', 'constituency', 'position'],
         target: '#bjpSeats',
         rows: [],
@@ -99,6 +66,7 @@ GI_INDIA.tasks.push(function bjpSeats() {
  */
 GI_INDIA.tasks.push(function marginalSeats() {
     var tableData = {
+        title: 'marginal seats',
         columns: ['state', 'constituency', '1st party', '1st total', '2nd party', '2nd total', 'diff'],
         target: '#marginal',
         rows: [],
@@ -137,6 +105,7 @@ GI_INDIA.tasks.push(function marginalSeats() {
  */
 GI_INDIA.tasks.push(function safeSeats() {
     var tableData = {
+        title: 'Safe seats',
         columns: ['state', 'constituency', '1st party', '1st total', '2nd party', '2nd total', 'diff'],
         target: '#safeSeats',
         rows: [],
@@ -173,12 +142,48 @@ GI_INDIA.tasks.push(function safeSeats() {
 
 // INNER WORKINGS
 GI_INDIA.processTasks = function() {
-    GI_INDIA.tasks.forEach(function(task) {
-        var tableData = task();
-        GI_INDIA.appendTable(tableData, tableData.target);
+    GI_INDIA.tasks.forEach(function(task, index) {
+        GI_INDIA.outputDataSet(task(), index);
     });
 };
 
+
+GI_INDIA.Datasets = {
+    el: document.querySelector('#data_set_nav'),
+
+    store: [],
+
+    addDataSet: function(_table, _dataset) {
+        var dataset = {
+            tableEl: _table,
+            data: _dataset,
+            titleEl: this.createTitle(_dataset.title)
+        };
+
+        dataset.titleEl.addEventListener('click', this.activateDataSet.bind(dataset));
+
+        this.store.push(dataset);
+
+        return dataset;
+    },
+
+    createTitle: function(title) {
+        var el = document.createElement('div');
+        el.classList.add('data-set-title');
+        el.innerHTML = title;
+        this.el.appendChild(el);
+        return el;
+    },
+
+    activateDataSet: function() {
+        // FIXME: better solution
+        $('#data_set_table_wrapper table').hide();
+        $(this.tableEl).show();
+        $('#data_set_nav div').removeClass('active');
+        $(this.titleEl).addClass('active');
+        GI_INDIA.Map.addMarkers(this.data.constituencies);
+    }
+};
 
 GI_INDIA.handleJSONSuccess = function(_data) {
     GI_INDIA.data = _data;
@@ -186,69 +191,66 @@ GI_INDIA.handleJSONSuccess = function(_data) {
 };
 
 
-GI_INDIA.appendTable = function(_data, _target, _id) {
-    var target = (_target) ? document.querySelector(_target) : document.body;
-    var tableEl = GI_INDIA.createTableEl(_data, _data.rows.length);
-    var id = _id || GI_INDIA.createRandomID('table_');
-
-    GI_INDIA.addMap(target, _data);
-
-    var wrapperEl = document.createElement('div');
-    wrapperEl.setAttribute('id', id);
-    wrapperEl.appendChild(tableEl);
-    target.appendChild(wrapperEl);
-
-    var valNames = _data.columns.map(function(col) {
-        return GI_INDIA.createID_Name(col);
-    });
-
-    if (!GI_INDIA.hasOwnProperty('tables')) GI_INDIA.tables = [];
-
-    GI_INDIA.tables.push( new List(id, { valueNames: valNames }) );
+GI_INDIA.outputDataSet = function(_dataset, taskIndex) {
+    var dataset = GI_INDIA.Datasets.addDataSet(
+        GI_INDIA.Tables.addTable(_dataset.columns, _dataset.rows),
+        _dataset
+    );
 
 
+    if (taskIndex === 0) {
+        GI_INDIA.Datasets.activateDataSet.call(dataset);
+    }
 };
 
 
 /**
  * Create table
  */
-GI_INDIA.createTableEl = function(_data, _rowCount) {
-    var rowCount = _rowCount || 10;
-    var tableEl = document.createElement('table');
-    var theadEl = document.createElement('thead');
-    var tbodyEl = document.createElement('tbody');
-    var trHeadEl = document.createElement('tr');
+GI_INDIA.Tables = {
+    el: document.querySelector('#data_set_table_wrapper'),
 
-    tbodyEl.classList.add('list');
-    theadEl.appendChild(trHeadEl);
+    addTable: function(columns, rows) {
+        var tableEl = this.createTable(columns, rows);
+        this.el.appendChild(tableEl);
+        return tableEl;
+    },
 
-    // Create head
-    _data.columns.forEach(function(col) {
-        var th = document.createElement('th');
-        th.innerHTML = col;
-        th.classList.add('sort');
-        th.setAttribute('data-sort', GI_INDIA.createID_Name(col));
-        trHeadEl.appendChild(th);
-    });
+    createTable: function(columns, rows) {
+        var tableEl = document.createElement('table');
+        var theadEl = document.createElement('thead');
+        var tbodyEl = document.createElement('tbody');
+        var trHeadEl = document.createElement('tr');
 
-    // Create body
-    _data.rows.forEach(function(row) {
-        var tr = document.createElement('tr');
-        row.forEach(function(cell, index) {
-            var td = document.createElement('td');
-            td.innerHTML = cell;
-            td.setAttribute('class', GI_INDIA.createID_Name(_data.columns[index]));
-            tr.appendChild(td);
+        tbodyEl.classList.add('list');
+        theadEl.appendChild(trHeadEl);
+
+        // Create head
+        columns.forEach(function(col) {
+            var th = document.createElement('th');
+            th.innerHTML = col;
+            th.classList.add('sort');
+            th.setAttribute('data-sort', GI_INDIA.createID_Name(col));
+            trHeadEl.appendChild(th);
         });
-        tbodyEl.appendChild(tr);
-    });
 
-    tableEl.appendChild(theadEl);
-    tableEl.appendChild(tbodyEl);
-    return tableEl;
+        // Create body
+        rows.forEach(function(row) {
+            var tr = document.createElement('tr');
+            row.forEach(function(cell, index) {
+                var td = document.createElement('td');
+                td.innerHTML = cell;
+                td.setAttribute('class', GI_INDIA.createID_Name(columns[index]));
+                tr.appendChild(td);
+            });
+            tbodyEl.appendChild(tr);
+        });
+
+        tableEl.appendChild(theadEl);
+        tableEl.appendChild(tbodyEl);
+        return tableEl;
+    }
 };
-
 
 GI_INDIA.createRandomID = function(_prefix) {
     var prefix = _prefix || 'rndID_';
@@ -272,46 +274,81 @@ GI_INDIA.handleJSONError = function() {
 };
 
 
-GI_INDIA.addMap = function(target, _data) {
+GI_INDIA.Map = {
+    el: document.querySelector('#data_set_map'),
+    map: null,
+    bounds: null,
+    markers: [],
 
-    var mapDOM = document.createElement('div');
-    mapDOM.setAttribute('id', GI_INDIA.createRandomID('map_'));
-    mapDOM.setAttribute('style', 'width: 500px; height: 240px;');
-    target.appendChild(mapDOM);
+    setup: function() {
+        var myLatlng = new google.maps.LatLng(21.0, 78.0);
+        var mapOptions = {
+            zoom: 3,
+            center: myLatlng,
+            disableDefaultUI: true
+        };
+        this.map = new google.maps.Map(this.el, mapOptions);
+    },
 
-    initialize();
+    addSingleMarker: function(place) {
+        if (place.lat === 'NA' || place.lng === 'NA') {
+            return;
+        }
+        var latlng = new google.maps.LatLng(place.lat, place.lng);
+        var marker = new google.maps.Marker({
+            icon: {
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: 3,
+              fillColor: '#F00',
+              fillOpacity: 0.5,
+              strokeOpacity: 0.0
+            },
+          position: latlng,
+          map: GI_INDIA.Map.map,
+          title: place.title
+        });
 
-    function initialize() {
-      var myLatlng = new google.maps.LatLng(21.0, 78.0);
-      var mapOptions = {
-        zoom: 3,
-        center: myLatlng,
-        disableDefaultUI: true
-      };
-      var map = new google.maps.Map(mapDOM, mapOptions);
+        GI_INDIA.Map.markers.push(marker);
+        GI_INDIA.Map.bounds.extend(latlng);
+    },
 
-      if (_data.constituencies) {
-          _data.constituencies.forEach(function(constituency) {
-            var latlng = new google.maps.LatLng(constituency.location.lat, constituency.location.lng);
-            var marker = new google.maps.Marker({
-                    icon: {
-                      path: google.maps.SymbolPath.CIRCLE,
-                      scale: 3,
-                      fillColor: '#F00',
-                      fillOpacity: 0.5,
-                      strokeOpacity: 0.0
-                    },
-                  position: latlng,
-                  map: map,
-                  title: constituency.constituency
-              });
-          });
-      }
+    clearMarkers: function() {
+        this.markers.forEach(function(marker) {
+            marker.setMap(null);
+        });
+        this.markers = [];
+    },
+
+    addMarkers: function(constituencies) {
+        var places = constituencies.map(function(constituency) {
+            return {
+                lat: constituency.location.lat,
+                lng: constituency.location.lng,
+                title: constituency.constituency
+            };
+        });
+
+        this.clearMarkers();
+        this.bounds = new google.maps.LatLngBounds();
+        places.forEach(this.addSingleMarker);
+        this.map.fitBounds(this.bounds);
     }
+};
 
+
+GI_INDIA.DOM = {
+
+    setup: function() {
+        // GI_INDIA.$wrapper = $('#data_wrapper');
+        // GI_INDIA.$nav = $('#data_set_nav');
+        // GI_INDIA.$tableWrapper = $('#data_set_table_wrapper');
+    }
 };
 
 GI_INDIA.init = function() {
+    GI_INDIA.DOM.setup();
+    GI_INDIA.Map.setup();
+
     var dataFile = 'processed_data.json';
 
     $.getJSON(dataFile)
