@@ -1,0 +1,13 @@
+{
+  "name": "data_processing",
+  "version": "0.0.1",
+  "description": "Process data",
+  "main": "convert2json.js",
+  "author": "Guardian Interactive",
+  "devDependencies": {
+    "underscore": "^1.6.0",
+    "async": "^0.2.10",
+    "csv": "^0.3.7",
+    "request": "^2.34.0"
+  }
+}

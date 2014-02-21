@@ -1,0 +1,20 @@
+India election 2009 data processing
+===================================
+
+WHAT
+    Convert the original data from the Election Commission of India, general
+    election results 2009 into JSON.
+
+REQUIREMENTS
+    nodejs
+
+HOW
+    > npm install
+    > node convert2json.js
+
+NOTES
+    geoencode.js has been left in as it might be useful again, maybe. It uses
+    Google's geolocation API to fetch the lat, lng of all the constituences.
+
+    NB: Google requires that you use their map if you get the lat, lng from
+        their API.
