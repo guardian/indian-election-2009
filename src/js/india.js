@@ -161,7 +161,6 @@ GI_INDIA.Datasets = {
         };
 
         dataset.titleEl.addEventListener('click', this.activateDataSet.bind(dataset));
-
         this.store.push(dataset);
 
         return dataset;
@@ -177,7 +176,7 @@ GI_INDIA.Datasets = {
 
     activateDataSet: function() {
         // FIXME: better solution
-        $('#data_set_table_wrapper table').hide();
+        $('#data_set_table_wrapper .table_wrapper').hide();
         $(this.tableEl).show();
         $('#data_set_nav div').removeClass('active');
         $(this.titleEl).addClass('active');
@@ -197,9 +196,19 @@ GI_INDIA.outputDataSet = function(_dataset, taskIndex) {
         _dataset
     );
 
+    // FIXME: Better way of getting ID.
+    $('table', dataset.tableEl).tablesorter();
+    $('table', dataset.tableEl).bind('sortEnd',function(e, table) {
+        if ($(table).hasClass('collapsed')) {
+            $('tr', table).removeClass('hidden');
+            $('tr:nth-child(n+6)', table).addClass('hidden');
+        }
+    });
 
     if (taskIndex === 0) {
         GI_INDIA.Datasets.activateDataSet.call(dataset);
+    } else {
+        $(dataset.tableEl).hide();
     }
 };
 
@@ -211,9 +220,42 @@ GI_INDIA.Tables = {
     el: document.querySelector('#data_set_table_wrapper'),
 
     addTable: function(columns, rows) {
+        var wrapperEl = document.createElement('div');
         var tableEl = this.createTable(columns, rows);
-        this.el.appendChild(tableEl);
-        return tableEl;
+        var toggleEl = this.createToggle(tableEl);
+
+        wrapperEl.classList.add('table_wrapper');
+        wrapperEl.setAttribute('id', GI_INDIA.createRandomID('table_'));
+        wrapperEl.appendChild(tableEl);
+        wrapperEl.appendChild(toggleEl);
+        this.el.appendChild(wrapperEl);
+
+        this.toggleCollapse.call(tableEl);
+
+        return wrapperEl;
+    },
+
+    toggleCollapse: function() {
+        // FIXME: Clean up toggling
+        // var rows = this.querySelectorAll('tr:nth-child(n+6)');
+        // for (var i = 0; i < rows.length; i++) {
+        //     rows[i].classList.toggle('hidden');
+        // }
+        //
+        this.classList.toggle('collapsed');
+        if (this.classList.contains('collapsed')) {
+            $('tr:nth-child(n+6)', this).addClass('hidden');
+        } else {
+            $('tr:nth-child(n+6)', this).removeClass('hidden');
+        }
+    },
+
+    createToggle: function(tableEl) {
+        var collapseEl = document.createElement('div');
+        collapseEl.classList.add('table_toggle');
+        collapseEl.innerHTML = 'Show full table data';
+        collapseEl.addEventListener('click', this.toggleCollapse.bind(tableEl));
+        return collapseEl;
     },
 
     createTable: function(columns, rows) {
@@ -235,7 +277,7 @@ GI_INDIA.Tables = {
         });
 
         // Create body
-        rows.forEach(function(row) {
+        rows.forEach(function(row, rowIndex) {
             var tr = document.createElement('tr');
             row.forEach(function(cell, index) {
                 var td = document.createElement('td');
@@ -243,6 +285,7 @@ GI_INDIA.Tables = {
                 td.setAttribute('class', GI_INDIA.createID_Name(columns[index]));
                 tr.appendChild(td);
             });
+
             tbodyEl.appendChild(tr);
         });
 

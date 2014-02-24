@@ -1,0 +1,35 @@
+#data_set_map {
+    width: 450px;
+    height: 250px;
+}
+
+#data_set_nav div.active {
+    font-weight: bold;
+    background: red;
+}
+
+.data-set-title {
+    display: inline-block;
+    padding: 5px 10px;
+    border: 1px solid #000;
+    background: #fff;
+    cursor: pointer;
+}
+
+.data-set-title:hover {
+    background: #eee;
+}
+
+.table_wrapper .hidden {
+    display: none;
+}
+
+.table_toggle{
+    content: '...';
+    display: block;
+    background: #EEE;
+    border: 1px solid #000;
+    text-align: center;
+    margin-bottom: 5px;
+    cursor: pointer;
+};
