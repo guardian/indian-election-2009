@@ -101,6 +101,83 @@ GI_INDIA.tasks.push(function marginalSeats() {
 
 
 /**
+ * TASK: BJP 2nd, ordered: marginality.
+ */
+GI_INDIA.tasks.push(function bjpSecond() {
+    var tableData = {
+        title: 'BJP Second',
+        columns: ['state', 'constituency', 'Vote margin', '1st party', '1st total', '2nd party', '2nd total', 'AAP standing'],
+        target: '#marginal',
+        rows: [],
+        constituencies: []
+    };
+
+    var results = _.filter(GI_INDIA.data, function(con) {
+        return _.findWhere(con.candidates, {position: 2, party: 'BJP'});
+    });
+
+    var sorted = _.sortBy(results, function(item) {
+        var second = _.findWhere(item.candidates, {position: 2, party: 'BJP'});
+        var first = _.findWhere(item.candidates, {position: 1});
+        return (second.votes_secured.total - first.votes_secured.total) * -1;
+    });
+
+    _.each(sorted, function (con) {
+        var second = _.findWhere(con.candidates, {position: 2, party: 'BJP'});
+        var first = _.findWhere(con.candidates, {position: 1});
+
+        tableData.rows.push([
+            con.state,
+            con.constituency,
+            first.votes_secured.total - second.votes_secured.total,
+            first.party,
+            first.votes_secured.total,
+            second.party,
+            second.votes_secured.total,
+            con.aap_standing
+        ]);
+
+        tableData.constituencies.push(con);
+    });
+
+
+    return tableData;
+
+    // Modifies original GI_INDIA.data!
+    // GI_INDIA.data.sort(function(a, b) {
+    //     return (a.candidates[0].votes_secured.total - a.candidates[1].votes_secured.total) -
+    //         (b.candidates[0].votes_secured.total - b.candidates[1].votes_secured.total);
+    // });
+    //
+
+    // return _.map(sorted, function(constituency) {
+    //     return [
+    //         constituency.state
+    //     ];
+    // });
+
+
+    // for( var i = 0; i < 10; i++) {
+    //     var diff = GI_INDIA.data[i].candidates[0].votes_secured.total - GI_INDIA.data[i].candidates[1].votes_secured.total;
+
+    //     tableData.rows.push([
+    //         GI_INDIA.data[i].state,
+    //         GI_INDIA.data[i].constituency,
+    //         GI_INDIA.data[i].candidates[0].party,
+    //         GI_INDIA.data[i].candidates[0].votes_secured.total,
+    //         GI_INDIA.data[i].candidates[1].party,
+    //         GI_INDIA.data[i].candidates[1].votes_secured.total,
+    //         diff
+    //     ]);
+
+    //     tableData.constituencies.push(GI_INDIA.data[i]);
+    // }
+
+    // return tableData;
+});
+
+
+/**
  * TASK: Find all the safe seats.
  */
 GI_INDIA.tasks.push(function safeSeats() {
