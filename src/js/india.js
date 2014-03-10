@@ -119,7 +119,7 @@ GI_INDIA.tasks.push(function bjpSecond() {
     var sorted = _.sortBy(results, function(item) {
         var second = _.findWhere(item.candidates, {position: 2, party: 'BJP'});
         var first = _.findWhere(item.candidates, {position: 1});
-        return (second.votes_secured.total - first.votes_secured.total) * -1;
+        return (first.votes_secured.total - second.votes_secured.total);
     });
 
     _.each(sorted, function (con) {
@@ -142,39 +142,65 @@ GI_INDIA.tasks.push(function bjpSecond() {
 
 
     return tableData;
-
-    // Modifies original GI_INDIA.data!
-    // GI_INDIA.data.sort(function(a, b) {
-    //     return (a.candidates[0].votes_secured.total - a.candidates[1].votes_secured.total) -
-    //         (b.candidates[0].votes_secured.total - b.candidates[1].votes_secured.total);
-    // });
-    //
-
-    // return _.map(sorted, function(constituency) {
-    //     return [
-    //         constituency.state
-    //     ];
-    // });
-
-
-    // for( var i = 0; i < 10; i++) {
-    //     var diff = GI_INDIA.data[i].candidates[0].votes_secured.total - GI_INDIA.data[i].candidates[1].votes_secured.total;
-
-    //     tableData.rows.push([
-    //         GI_INDIA.data[i].state,
-    //         GI_INDIA.data[i].constituency,
-    //         GI_INDIA.data[i].candidates[0].party,
-    //         GI_INDIA.data[i].candidates[0].votes_secured.total,
-    //         GI_INDIA.data[i].candidates[1].party,
-    //         GI_INDIA.data[i].candidates[1].votes_secured.total,
-    //         diff
-    //     ]);
-
-    //     tableData.constituencies.push(GI_INDIA.data[i]);
-    // }
-
-    // return tableData;
 });
+
+/**
+ * TASK: BJP 2nd, ordered: marginality.
+ */
+GI_INDIA.tasks.push(function bjpThird() {
+    // "percent_votes_secured": {
+    //       "over_total_electors_in_constituency": 22.74,
+    //       "over_total_votes_polled_in_constituency": 29.78
+    //     },
+    var tableData = {
+        title: 'BJP Third',
+        columns: ['state', 'constituency', 'Vote margin % 1st / 3rd', '1st party', '1st % total polled votes', '2nd party', '2nd % total polled votes', '3rd party', '3rd % total polled votes', 'AAP standing'],
+        target: '#marginal',
+        rows: [],
+        constituencies: []
+    };
+
+    var results = _.filter(GI_INDIA.data, function(con) {
+        return _.findWhere(con.candidates, {position: 3, party: 'BJP'});
+    });
+
+    var sorted = _.sortBy(results, function(item) {
+
+        // "percent_votes_secured": {
+        //   "over_total_electors_in_constituency": 9.98,
+        //   "over_total_votes_polled_in_constituency": 13.08
+        // }
+        //
+        var first = _.findWhere(item.candidates, {position: 1});
+        var third = _.findWhere(item.candidates, {position: 3, party: 'BJP'});
+        return (first.votes_secured.total - third.votes_secured.total);
+    });
+
+    _.each(sorted, function (con) {
+        var first = _.findWhere(con.candidates, {position: 1});
+        var second = _.findWhere(con.candidates, {position: 2});
+        var third = _.findWhere(con.candidates, {position: 3, party: 'BJP'});
+
+        tableData.rows.push([
+            con.state,
+            con.constituency,
+            (first.percent_votes_secured.over_total_votes_polled_in_constituency - third.percent_votes_secured.over_total_votes_polled_in_constituency).toFixed(2),
+            first.party,
+            first.percent_votes_secured.over_total_votes_polled_in_constituency,
+            second.party,
+            second.percent_votes_secured.over_total_votes_polled_in_constituency,
+            third.party,
+            third.percent_votes_secured.over_total_votes_polled_in_constituency,
+            con.aap_standing
+        ]);
+
+        tableData.constituencies.push(con);
+    });
+
+
+    return tableData;
+});
+
 
 
 /**
