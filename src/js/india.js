@@ -106,10 +106,11 @@ GI_INDIA.tasks.push(function marginalSeats() {
 GI_INDIA.tasks.push(function bjpSecond() {
     var tableData = {
         title: 'BJP Second',
-        columns: ['state', 'constituency', 'Vote margin', '1st party', '1st total', '2nd party', '2nd total', 'AAP standing'],
+        columns: ['state', 'constituency', 'Vote margin %', '1st party', '1st total %', '2nd party', '2nd total %', 'AAP standing'],
         target: '#marginal',
         rows: [],
-        constituencies: []
+        constituencies: [],
+        markers: []
     };
 
     var results = _.filter(GI_INDIA.data, function(con) {
@@ -119,7 +120,7 @@ GI_INDIA.tasks.push(function bjpSecond() {
     var sorted = _.sortBy(results, function(item) {
         var second = _.findWhere(item.candidates, {position: 2, party: 'BJP'});
         var first = _.findWhere(item.candidates, {position: 1});
-        return (first.votes_secured.total - second.votes_secured.total);
+        return first.percent_votes_secured.over_total_votes_polled_in_constituency - second.percent_votes_secured.over_total_votes_polled_in_constituency;
     });
 
     _.each(sorted, function (con) {
@@ -129,16 +130,38 @@ GI_INDIA.tasks.push(function bjpSecond() {
         tableData.rows.push([
             con.state,
             con.constituency,
-            first.votes_secured.total - second.votes_secured.total,
+            parseFloat((first.percent_votes_secured.over_total_votes_polled_in_constituency - second.percent_votes_secured.over_total_votes_polled_in_constituency).toFixed(2)),
             first.party,
-            first.votes_secured.total,
+            first.percent_votes_secured.over_total_votes_polled_in_constituency,
             second.party,
-            second.votes_secured.total,
+            second.percent_votes_secured.over_total_votes_polled_in_constituency,
             con.aap_standing
         ]);
 
+
+        tableData.markers.push({
+            lat: con.location.lat,
+            lng: con.location.lng,
+            title: con.constituency,
+            opacity: 0
+        });
+
         tableData.constituencies.push(con);
     });
+
+    var minMargin = _.min(tableData.rows, function(item) { return item[2]; })[2];
+    var maxMargin = _.max(tableData.rows, function(item) { return item[2]; })[2];
+
+    _.each(tableData.markers, function(marker, index) {
+        var marginPercent = tableData.rows[index][2];
+        var OldRange = (maxMargin - minMargin);
+        var NewRange = (1 - 0);
+        var NewValue = (((marginPercent - minMargin) * NewRange) / OldRange) + 0;
+
+        marker.opacity = NewValue;
+    });
+
+
 
 
     return tableData;
@@ -154,10 +177,22 @@ GI_INDIA.tasks.push(function bjpThird() {
     //     },
     var tableData = {
         title: 'BJP Third',
-        columns: ['state', 'constituency', 'Vote margin % 1st / 3rd', '1st party', '1st % total polled votes', '2nd party', '2nd % total polled votes', '3rd party', '3rd % total polled votes', 'AAP standing'],
+        columns: [
+            'state',
+            'constituency',
+            'Vote margin % 1st / 3rd',
+            '1st party',
+            '1st % total polled votes',
+            '2nd party',
+            '2nd % total polled votes',
+            '3rd party',
+            '3rd % total polled votes',
+            'AAP standing'
+        ],
         target: '#marginal',
         rows: [],
-        constituencies: []
+        constituencies: [],
+        markers: []
     };
 
     var results = _.filter(GI_INDIA.data, function(con) {
@@ -173,7 +208,7 @@ GI_INDIA.tasks.push(function bjpThird() {
         //
         var first = _.findWhere(item.candidates, {position: 1});
         var third = _.findWhere(item.candidates, {position: 3, party: 'BJP'});
-        return (first.votes_secured.total - third.votes_secured.total);
+        return first.percent_votes_secured.over_total_votes_polled_in_constituency - third.percent_votes_secured.over_total_votes_polled_in_constituency;
     });
 
     _.each(sorted, function (con) {
@@ -184,7 +219,7 @@ GI_INDIA.tasks.push(function bjpThird() {
         tableData.rows.push([
             con.state,
             con.constituency,
-            (first.percent_votes_secured.over_total_votes_polled_in_constituency - third.percent_votes_secured.over_total_votes_polled_in_constituency).toFixed(2),
+            parseFloat((first.percent_votes_secured.over_total_votes_polled_in_constituency - third.percent_votes_secured.over_total_votes_polled_in_constituency).toFixed(2)),
             first.party,
             first.percent_votes_secured.over_total_votes_polled_in_constituency,
             second.party,
@@ -194,7 +229,28 @@ GI_INDIA.tasks.push(function bjpThird() {
             con.aap_standing
         ]);
 
+         tableData.markers.push({
+            lat: con.location.lat,
+            lng: con.location.lng,
+            title: con.constituency,
+            opacity: 0
+        });
+
         tableData.constituencies.push(con);
+    });
+
+
+    var minMargin = _.min(tableData.rows, function(item) { return item[2]; })[2];
+    var maxMargin = _.max(tableData.rows, function(item) { return item[2]; })[2];
+
+
+    _.each(tableData.markers, function(marker, index) {
+        var marginPercent = tableData.rows[index][2];
+        var OldRange = (maxMargin - minMargin);
+        var NewRange = (1 - 0);
+        var NewValue = (((marginPercent - minMargin) * NewRange) / OldRange) + 0;
+
+        marker.opacity = NewValue;
     });
 
 
@@ -212,7 +268,8 @@ GI_INDIA.tasks.push(function safeSeats() {
         columns: ['state', 'constituency', '1st party', '1st total', '2nd party', '2nd total', 'diff'],
         target: '#safeSeats',
         rows: [],
-        constituencies: []
+        constituencies: [],
+        markers: []
     };
 
     // Modifies original GI_INDIA.data!
@@ -283,7 +340,13 @@ GI_INDIA.Datasets = {
         $(this.tableEl).show();
         $('#data_set_nav div').removeClass('active');
         $(this.titleEl).addClass('active');
-        GI_INDIA.Map.addMarkers(this.data.constituencies);
+
+        // DEBUG!
+        if (this.data.markers) {
+            GI_INDIA.Map.TESTING(this.data.markers);
+        } else {
+            GI_INDIA.Map.addMarkers(this.data.constituencies);
+        }
     }
 };
 
@@ -440,13 +503,14 @@ GI_INDIA.Map = {
         if (place.lat === 'NA' || place.lng === 'NA') {
             return;
         }
+
         var latlng = new google.maps.LatLng(place.lat, place.lng);
         var marker = new google.maps.Marker({
             icon: {
               path: google.maps.SymbolPath.CIRCLE,
               scale: 3,
               fillColor: '#F00',
-              fillOpacity: 0.5,
+              fillOpacity: place.opacity || 0.5,
               strokeOpacity: 0.0
             },
           position: latlng,
@@ -477,6 +541,13 @@ GI_INDIA.Map = {
         this.clearMarkers();
         this.bounds = new google.maps.LatLngBounds();
         places.forEach(this.addSingleMarker);
+        this.map.fitBounds(this.bounds);
+    },
+
+    TESTING: function(markers) {
+        this.clearMarkers();
+        this.bounds = new google.maps.LatLngBounds();
+        markers.forEach(this.addSingleMarker);
         this.map.fitBounds(this.bounds);
     }
 };
