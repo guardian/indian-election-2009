@@ -12,9 +12,29 @@ HOW
     > npm install
     > node convert2json.js
 
+DEVELOPER NOTES
+    Converting India districts into TopoJSON
+
+    > sudo apt-get install gdal
+    > sudo npm install -g topojson
+
+    # Shapefile to GeoJSON
+    ogr2ogr -f GeoJSON india_districts.json \
+    census_of_india_district_profiles-_households_and_villages_2001.shp
+
+    # GeoJSON to TopoJSON, compress and strip unwanted properties
+    topojson -o india_districts_topo.json \
+    -p state=STATE -p state \
+    -p distshp=DISTSHP -p distshp \
+    -p distcensus=DISTCENSUS -p distcensus \
+    -p name=NAME_2 -p name \
+    --quantization 1e4 \
+    --simplify 0.000001 \
+    india_districts.json
+
 NOTES
     geoencode.js has been left in as it might be useful again, maybe. It uses
-    Google's geolocation API to fetch the lat, lng of all the constituences.
+    Google's geolocation API to fetch the lat, lng of all the constituencies.
 
     NB: Google requires that you use their map if you get the lat, lng from
         their API.

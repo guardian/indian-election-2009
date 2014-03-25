@@ -1,3 +1,47 @@
+
+
+
+
+var width = 960,
+    height = 1160;
+
+var svg = d3.select("#d3Map").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+var projection = d3.geo.mercator()
+    .center([78, 21])
+    .scale(1200)
+    .translate([width / 2, height / 2]);
+
+
+var path = d3.geo.path()
+    .projection(projection);
+
+
+// D3 test
+d3.json("js/india_districts_topo.json", function(error, indiaDistricts) {
+  console.log(indiaDistricts);
+  // svg.append("path")
+  //         .datum(topojson.feature(indiaDistricts, indiaDistricts.objects.india_districts))
+  //         .attr("d", path)
+  //         .attr("class", "subunit-boundary");
+  //
+  svg.selectAll("path")
+       .data(topojson.feature(indiaDistricts, indiaDistricts.objects.india_districts).features)
+       .enter()
+       .append("path")
+       .attr("d", path)
+       .style("fill", function(d) {
+           if (d.properties.region == "XYZ")
+               {return "red"}
+           else {return "gray"}
+       });
+
+});
+
+
+
 var GI_INDIA = GI_INDIA || { tasks: [] };
 
 /**
