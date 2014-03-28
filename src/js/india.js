@@ -1,45 +1,18 @@
 
 
 
+var width = 250;
+var height = 200;
 
-var width = 960,
-    height = 1160;
+var data = [
+    { "x_axis": 30, "y_axis": 30, "radius": 3, "color" : "green" },
+    { "x_axis": 30, "y_axis": 30, "radius": 3, "color" : "green" }
+];
 
-var svg = d3.select("#d3Map").append("svg")
+var svgContainer = d3.select("#d3Chart").append("svg")
     .attr("width", width)
-    .attr("height", height);
-
-var projection = d3.geo.mercator()
-    .center([78, 21])
-    .scale(1200)
-    .translate([width / 2, height / 2]);
-
-
-var path = d3.geo.path()
-    .projection(projection);
-
-
-// D3 test
-d3.json("js/india_districts_topo.json", function(error, indiaDistricts) {
-  console.log(indiaDistricts);
-  // svg.append("path")
-  //         .datum(topojson.feature(indiaDistricts, indiaDistricts.objects.india_districts))
-  //         .attr("d", path)
-  //         .attr("class", "subunit-boundary");
-  //
-  svg.selectAll("path")
-       .data(topojson.feature(indiaDistricts, indiaDistricts.objects.india_districts).features)
-       .enter()
-       .append("path")
-       .attr("d", path)
-       .style("fill", function(d) {
-           if (d.properties.region == "XYZ")
-               {return "red"}
-           else {return "gray"}
-       });
-
-});
-
+    .attr("height", height)
+    .attr('shape-rendering', 'crispEdges');
 
 
 var GI_INDIA = GI_INDIA || { tasks: [] };
@@ -387,15 +360,123 @@ GI_INDIA.Datasets = {
 
         // DEBUG!
         if (this.data.markers) {
-            GI_INDIA.Map.TESTING(this.data.markers);
+            //GI_INDIA.Map.TESTING(this.data.markers);
         } else {
-            GI_INDIA.Map.addMarkers(this.data.constituencies);
+            //GI_INDIA.Map.addMarkers(this.data.constituencies);
         }
     }
 };
 
 GI_INDIA.handleJSONSuccess = function(_data) {
     GI_INDIA.data = _data;
+
+    var congressConstituencies = _.filter(GI_INDIA.data, function(constituency) {
+        var didBJPRun = _.some(constituency.candidates, function(candidate) {
+            return candidate.party === 'BJP';
+        });
+
+        return (constituency.candidates[0].party === 'INC' && didBJPRun);
+    });
+
+
+    var marginalityList = congressConstituencies.map(function(constituency) {
+        var inc = _.find(constituency.candidates, function(c) { return c.party === 'INC';} );
+        var bjp = _.find(constituency.candidates, function(c) { return c.party === 'BJP';} );
+
+        var marginality = inc.votes_secured.total - bjp.votes_secured.total;
+        var totalVotes = _.reduce(constituency.candidates, function(memo, num) {
+            return memo + num.votes_secured.total;
+        }, 0);
+
+        return {
+            marginality: marginality,
+            totalVotes: totalVotes,
+            constituency: constituency.constituency
+        };
+    });
+
+    var marginalityDomainValues = _.map(marginalityList, function(m) {
+        return m.marginality;
+    });
+
+
+
+    var yScale = d3.scale.linear()
+                    .domain([_.max(marginalityDomainValues), _.max(marginalityDomainValues) * -1])
+                    .range([0, 200]);
+
+    console.log(yScale(0));
+    console.log(yScale(100000));
+    console.log(yScale(-100000))
+    // var lineFunction = d3.svg.line()
+    //     .x(function (d, index) { return yScale(d.marginality); })
+    //     .y(function (d, index) { return 2 * index; })
+    //     .interpolate("linear");
+
+    // var lineGraph = svgContainer.append("path")
+    //     .attr("d", lineFunction(marginalityList))
+    //     .attr("stroke", "blue")
+    //     .attr("fill", "none");
+    //
+    //
+
+
+    var lines = svgContainer.selectAll("line")
+        .data(marginalityList)
+        .enter()
+        .append("line");
+
+    lines
+        .attr("x1", 100)
+        .attr("y1", function (d, index) { return index; })
+        .attr("x2", function (d) { return Math.floor(yScale(d.marginality)); })
+        .attr("y2", function (d, index) { return index; })
+        .style("stroke", function(d) { return (d.marginality > 0) ? 'rgba(0, 224, 255, 0.2)' : 'rgba(255, 133, 0, 0.2)'; })
+        .style("stroke-width", '1px');
+
+    var rectagles = svgContainer.selectAll("rect2")
+        .data(marginalityList)
+        .enter()
+        .append("rect");
+
+    rectagles
+        .attr("x", function (d, index) { return Math.floor(yScale(d.marginality)); })
+        .attr("y", function (d, index) { return index - 0.5; })
+        .attr("width", "1")
+        .attr("height", "1")
+        .style("fill", function(d) { return (d.marginality > 0) ? 'rgb(0, 224, 255)' : 'rgb(255, 133, 0)'; });
+
+
+
+    var sliderEl = document.querySelector('#slider');
+    sliderEl.setAttribute('max', _.max(marginalityDomainValues));
+    sliderEl.setAttribute('min', 0);
+    sliderEl.addEventListener('change', sliderChanged, false);
+
+
+    function sliderChanged(event) {
+
+        var data = _.map(marginalityList, function(m) {
+            return {
+                marginality: m.marginality - this.value
+            };
+        }, this);
+
+        rectagles
+            .data(data)
+            .style("fill", function(d) { return (d.marginality > 0) ? 'rgb(0, 224, 255)' : 'rgb(255, 133, 0)'; })
+            .transition()
+            .attr("x", function (d, index) { return Math.floor(yScale(d.marginality)); });
+
+        lines
+            .data(data)
+            .style("stroke", function(d) { return (d.marginality > 0) ? 'rgba(0, 224, 255, 0.2)' : 'rgba(255, 133, 0, 0.2)'; })
+            .transition()
+            .attr("x2", function (d) { return Math.floor(yScale(d.marginality)); });
+
+    }
+
+
     GI_INDIA.processTasks();
 };
 
@@ -532,8 +613,49 @@ GI_INDIA.Map = {
     map: null,
     bounds: null,
     markers: [],
+    style: [
+      {
+        "featureType": "poi",
+        "elementType": "geometry",
+        "stylers": [
+          { "visibility": "off" }
+        ]
+      },{
+        "featureType": "road",
+        "stylers": [
+          { "visibility": "off" }
+        ]
+      },{
+        "featureType": "administrative",
+        "stylers": [
+          { "visibility": "off" }
+        ]
+      },{
+        "featureType": "landscape",
+        "stylers": [
+          { "saturation": -100 },
+          { "gamma": 1 },
+          { "lightness": 60 }
+        ]
+      },{
+        "featureType": "water",
+        "stylers": [
+          { "saturation": -100 },
+          { "gamma": 9.99 },
+          { "lightness": 100 }
+        ]
+      },{
+      },{
+        "featureType": "poi",
+        "stylers": [
+          { "visibility": "off" }
+        ]
+      },{
+      }
+    ],
 
     setup: function() {
+        var styledMap = new google.maps.StyledMapType(this.style, {name: "Styled Map"});
         var myLatlng = new google.maps.LatLng(21.0, 78.0);
         var mapOptions = {
             zoom: 3,
@@ -541,6 +663,8 @@ GI_INDIA.Map = {
             disableDefaultUI: true
         };
         this.map = new google.maps.Map(this.el, mapOptions);
+        this.map.mapTypes.set('map_style', styledMap);
+        this.map.setMapTypeId('map_style');
     },
 
     addSingleMarker: function(place) {
@@ -552,10 +676,12 @@ GI_INDIA.Map = {
         var marker = new google.maps.Marker({
             icon: {
               path: google.maps.SymbolPath.CIRCLE,
-              scale: 3,
-              fillColor: '#F00',
+              scale: 2,
+              fillColor: place.color || '#F00',
               fillOpacity: place.opacity || 0.5,
-              strokeOpacity: 0.0
+              strokeOpacity: place.strokeopacity || 0.0,
+              strokeColor: '#F00',
+              strokeWidth: 2
             },
           position: latlng,
           map: GI_INDIA.Map.map,
@@ -578,12 +704,27 @@ GI_INDIA.Map = {
             return {
                 lat: constituency.location.lat,
                 lng: constituency.location.lng,
-                title: constituency.constituency
+                title: constituency.constituency,
+                strokeopacity: 1
+            };
+        });
+
+        var allPlaces = GI_INDIA.data.map(function(constituency) {
+            var doit = _.find(places, function(c) { return c.constituency === constituency.constituency; });
+
+            if (doit) return;
+
+            return {
+                lat: constituency.location.lat,
+                lng: constituency.location.lng,
+                title: constituency.constituency,
+                color: '#CCC'
             };
         });
 
         this.clearMarkers();
         this.bounds = new google.maps.LatLngBounds();
+        allPlaces.forEach(this.addSingleMarker);
         places.forEach(this.addSingleMarker);
         this.map.fitBounds(this.bounds);
     },
@@ -608,7 +749,7 @@ GI_INDIA.DOM = {
 
 GI_INDIA.init = function() {
     GI_INDIA.DOM.setup();
-    GI_INDIA.Map.setup();
+    //GI_INDIA.Map.setup();
 
     var dataFile = 'processed_data.json';
 
