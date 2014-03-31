@@ -453,14 +453,46 @@ GI_INDIA.handleJSONSuccess = function(_data) {
     sliderEl.setAttribute('min', 0);
     sliderEl.addEventListener('change', sliderChanged, false);
 
+    var incTotalCount = _.reduce(GI_INDIA.data, function(counter, constituency) {
+        var num = (constituency.candidates[0].party === 'INC' &&
+                   constituency.candidates[0].position === 1);
+        return counter + num;
+    }, 0);
+
+    var bjpTotalCount = _.reduce(GI_INDIA.data, function(counter, constituency) {
+        var num = (constituency.candidates[0].party === 'BJP' &&
+                   constituency.candidates[0].position === 1);
+        return counter + num;
+    }, 0);
+
+    // DOM
+    var incVoteEl = document.querySelector('#inc_vote_count');
+    var incVoteTotalEl = document.querySelector('#inc_vote_count_total');
+    var bjpVoteEl = document.querySelector('#bjp_vote_count');
+    var bjpVoteTotalEl = document.querySelector('#bjp_vote_count_total');
+
+
 
     function sliderChanged(event) {
-
         var data = _.map(marginalityList, function(m) {
             return {
                 marginality: m.marginality - this.value
             };
         }, this);
+
+        var bjpSeatCount = _.reduce(data, function(counter, d) {
+            var num = (d.marginality > 0) ? 0 : 1;
+            return counter + num;
+        }, 0);
+
+        var incSeatCount = data.length - bjpSeatCount;
+
+        bjpVoteEl.innerHTML = bjpSeatCount;
+        incVoteEl.innerHTML = incSeatCount;
+
+        bjpVoteTotalEl.innerHTML = bjpTotalCount + bjpSeatCount;
+        incVoteTotalEl.innerHTML = incTotalCount - bjpSeatCount;
+
 
         rectagles
             .data(data)

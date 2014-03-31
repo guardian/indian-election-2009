@@ -32,23 +32,23 @@
 
         <div id="data_wrapper">
             <div id="data_set_nav"></div>
+
             <div id="swing_wrapper">
                 <p>INC <span id="inc_vote_count"></span> (<span id="inc_vote_count_total"></span>)</p>
                 <p>BJP <span id="bjp_vote_count"></span> (<span id="bjp_vote_count_total"></span>)</p>
                 <div id="d3Chart"></div>
-                <input id="slider" type="range" value="0" />
+                <input id="slider" type="range" value="0" max="10" step="1" />
             </div>
+
             <div id="data_set_table_wrapper"></div>
         </div>
 
 
-        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
         <script src="js/topojson.js"></script>
         <script src="js/d3.min.js"></script>
         <script src="js/underscore.js"></script>
         <script src="js/jquery.min.js"></script>
-        <script src="js/jquery.tablesorter.min.js"></script>
-        <script src="js/india.js"></script>
+        <script src="js/explore.js"></script>
     </body>
 
 </html>
