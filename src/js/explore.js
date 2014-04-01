@@ -2,9 +2,24 @@
 var INDIA = (function() {
     var originalSeatsTotals = {};
     var sourceData;
-    var $sliderEl;
+    var $slider;
+    var SLIDER_DELAY = 300;
+    var swingAmount;
+    var tabelTemplate;
+    var seatTemplate;
+    var $seats;
+    var $table;
+    var $swingPercent;
+    var $bjpCount;
+    var $incCount;
+    var outputData;
 
     function render() {
+        $swingPercent.html(swingAmount + '%');
+        $bjpCount.html(outputData.parties.BJP);
+        $incCount.html(outputData.parties.INC);
+        renderTable();
+        renderSeats();
     }
 
     /**
@@ -12,7 +27,13 @@ var INDIA = (function() {
      * @param  {int} _swingVal Percentage swing
      */
     function updateSwing(_swingVal) {
-        //console.log
+        if (swingAmount === _swingVal) {
+            return;
+        }
+        swingAmount = _swingVal;
+        calcSwing();
+        outputData = calcSeats();
+        render();
     }
 
 
@@ -22,17 +43,15 @@ var INDIA = (function() {
 
     function populateData(data) {
         sourceData = data;
-        calcSwing();
-        render();
+        handleRangeChange();
     }
 
     /**
      * Calculate candidate votes based upon swing percentage to the BJP.
      * Modifies original data object.
-     * @param  {int} _swing Swing percentage
      */
-    function calcSwing(_swing) {
-        var swingPercentage = _swing / 100;
+    function calcSwing() {
+        var swingPercentage = swingAmount / 100;
 
         _.map(sourceData, function(cons) {
             // Check if BJP ran in this constituency
@@ -65,7 +84,6 @@ var INDIA = (function() {
             // Total of remaining parties votes after removing BJP votes
             // (before addition of swing votes)
             var remainingVotes = totalVotes - bjpVotes;
-
 
             _.map(cons.candidates, function(can) {
                 // Only precess non-BJP parties
@@ -101,6 +119,8 @@ var INDIA = (function() {
         };
 
         var bjpWinningConstituencies = [];
+
+
 
         _.map(sourceData, function(constituency) {
             // Find the new winning part
@@ -148,14 +168,36 @@ var INDIA = (function() {
     }
 
     function handleRangeChange() {
-        updateSwing(parseInt($sliderEl, 10));
+        updateSwing(parseInt($slider.val(), 10));
     }
 
     function setupDOM() {
-        $sliderEl.on('change', handleRangeChange, false);
+        $table = $('#table_container');
+        $seats = $('#seat_container');
+        $swingPercent = $('#swingPercent');
+        $incCount = $('#incCount');
+        $bjpCount = $('#bjpCount');
+        $slider = $('#slider');
+        $slider.get()[0].addEventListener(
+            'change',
+            _.debounce(handleRangeChange, SLIDER_DELAY),
+            false
+        );
+
+        tabelTemplate = $('#table_template').html();
+        seatTemplate = $('#seat_template').html();
+    }
+
+    function renderTable() {
+        $table.html(_.template(tabelTemplate, outputData));
+    }
+
+    function renderSeats() {
+        $seats.html(_.template(seatTemplate, outputData));
     }
 
     function init() {
+        setupDOM();
         fetchData();
     }
 
@@ -163,5 +205,4 @@ var INDIA = (function() {
 }());
 
 
-INDIA.init();
-
+$(document).ready(INDIA.init);
