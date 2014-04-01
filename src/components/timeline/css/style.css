@@ -1,0 +1,183 @@
+body{
+
+	margin:0;
+	font-family:'Guardian Agate Sans', sans-serif;
+	-webkit-font-smoothing:antialiased;
+}
+
+.wrapper{
+	height:250px;
+	width:100%;
+	background:#F4F4EE;
+}
+
+.introduction{
+	color:#333;
+	position: relative;
+	padding: 5px 22px 0;
+}
+
+.introduction p{
+	font-size:14px;
+	line-height:1.3em;
+	max-width:460px;
+}
+.introduction p.legend{
+	font-size:12px;
+}
+.introduction p.legend .color{
+	width:5px;
+	height:5px;
+	display:inline-block;
+	vertical-align: middle;
+	margin-right:5px;
+	margin-left:5px;
+}
+
+.introduction p.legend .color.BJP{
+	background:#7D0068;
+}
+.introduction p.legend .color.INC{
+	background:#F5644F;
+}
+.introduction p.legend .color.janataparty{
+	background:#6BA83F;
+}
+.introduction p.legend .color.janatadal{
+	background:#FFBB00;
+}
+.introduction p.legend .color.samajwadi{
+	background:#D23E55;
+}
+.timeline{
+	position:absolute;
+	top:0;	
+	left:12px;
+}
+
+h1{
+
+	font-size:18px;
+}
+
+.main{
+	position:absolute;
+	bottom:0;
+	height:250px;
+	width:100%;
+}
+
+.timelineItem{
+	position: absolute;
+	/*height:100px;*/
+	bottom:45px;
+}
+
+.itemBar{
+	position: absolute;
+	bottom:0;
+	-webkit-transition:0.5s opacity;
+	overflow:hidden;
+	border-right:1px solid #F4F4EE;
+	overflow:none;
+}
+
+.itemBar:hover{
+	opacity:0.8;
+}
+
+.leaderName{
+	margin:0 auto;
+	display:block;
+	margin-top:5px;
+	width:100%;
+	text-align: center;
+	color:#fff;
+	font-size:10px;
+	white-space: nowrap;
+	cursor:default;
+}
+
+.itemDetails{
+	width:150px;
+	box-sizing:border-box;
+	padding:10px;
+	background:#fff;
+	border-radius:3px;
+	box-shadow: 0 1px 1px #aaa;
+	position:absolute;
+	bottom:30px;
+	left:50%;
+	transform:translateX(-50%);
+	-webkit-transform:translateX(-50%);
+	opacity:0;
+	-webkit-transition:300ms opacity;
+	/*display:none;*/
+}
+
+.arrow
+{ 	display:block;
+	background:#fff;
+	content:"";
+	width:10px;
+	height:10px;
+	font-size:14px;
+	 -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+	box-shadow: 1px 1px 1px #aaa;
+	position:absolute;
+	bottom:-5px;
+	left:50%;
+	margin-left:-5px;
+}
+
+.itemDetails h2{
+	font-size:12px;
+	color:#333;
+	margin:0;
+}
+
+.itemDetails p{
+	font-size:11px;
+	color:#666;
+	margin:0.2em 0 0.8em;
+	line-height:1em;
+}
+
+.itemDetails p.note{
+	margin-top:0.5em;
+	margin-bottom:0.3em;
+	color:#999;
+}
+
+
+.primeMinisterPicture{
+	width:100%;
+}
+
+.axis{
+	overflow: visible;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #CAC6B6;
+    shape-rendering: crispEdges;
+}
+
+.axis circle {
+    /*fill: none;*/
+    fill: #CAC6B6;
+
+}
+
+.axis text {
+    font-family: 'Guardian Agate Sans', sans-serif;
+    font-size: 11px;
+    fill: #807C6E;
+    font-weight:bold;
+}

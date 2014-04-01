@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html class="no-js">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+
+        <link rel="stylesheet" href="css/style.css">
+        <!-- <link rel="stylesheet" href="pasteup-dev-fonts.css"> -->
+        <link rel="stylesheet" href="http://pasteup.guim.co.uk/0.0.5/css/fonts.pasteup.min.css">
+
+        <script src="js/vendor/d3.min.js"></script>
+        <script src="js/vendor/jquery-1.10.1.min.js"></script>
+        <script src="js/main.js"></script>
+    </head>
+    <body>
+    <div class="wrapper">
+        <div class="introduction clearfix">
+            <h1>The current Lok Sabha</h1>
+            <p>545 seats, 4 alliances, Coalition has no majority</p>
+            <div class="tooltip"><p class='tooltipStatus'>Hover over a party to see more information</p></div>
+        </div>
+
+        <div class="pie-chart">
+            <div class="pies"></div>
+            <div class="legend">
+            <p><span class='allianceColor' style='background-color:#005689;'></span>United Progressive Alliance - Coalition (229 seats)</p>
+            <p><span class='allianceColor' style='background-color:#FB8935;'></span>National Democratic Alliance (138 seats)</p>
+            <p><span class='allianceColor' style='background-color:#6BA83F;'></span>Third Front (75 seats)</p>
+            <p><span class='allianceColor' style='background-color:#f66980;'></span>Fourth Front (26 seats)</p>
+            <p><span class='allianceColor' style='background-color:#d23e55;'></span>Other Parties and Independents (75 seats)</p>
+            </div>
+        </div>
+        
+    </div>
+    <script src="//interactive.guim.co.uk/libs/iframe-messenger/iframeMessenger.js"></script>
+    <script>
+        iframeMessenger.enableAutoResize();
+    </script>
+    </body>
+</html>
