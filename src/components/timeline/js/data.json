@@ -1,0 +1,142 @@
+[
+	{
+		"startYear":"1947",
+		"endYear":"1964",
+		"leader":"INC",
+		"primeMinister" :{
+			"name" : "Jawaharlal Nehru",
+			"picture" : "1395676338195/Jawaharlal-Nehru-in-1947-003.jpg"
+		},
+		"notes": "Optional Note Here"
+	},
+	{
+		"startYear":"1964",
+		"endYear":"1966",
+		"leader":"INC",
+		"primeMinister" :{
+			"name" : "Lal Bahadur Shastri",
+			"picture" : "1395676573989/Lal-Bahadur-Shastri-003.jpg"
+		},
+		"notes": "Optional Note Here"
+	},
+	{
+		"startYear":"1966",
+		"endYear":"1977",
+		"leader":"INC",
+		"primeMinister" :{
+			"name" : "Indira Gandhi",
+			"picture" : "1395677826153/Indira-Gandhi-003.jpg"
+		},
+		"notes": "Optional Note Here"
+	},
+	{
+		"startYear":"1977",
+		"endYear":"1979",
+		"leader":"Janata Party",
+		"primeMinister" :{
+			"name" : "Morarji Desai",
+			"picture" : "1395679088694/Morarji-Desai-003.jpg"
+		},
+		"notes": "Optional Note Here"
+	},
+	{
+		"startYear":"1979",
+		"endYear":"1980",
+		"leader":"Janata Party",
+		"primeMinister" :{
+			"name" : "Charan Singh",
+			"picture" : "1395679335014/Charan-Singh-003.jpg"
+		},
+		"notes": "Optional Note Here"
+	},
+	{
+		"startYear":"1980",
+		"endYear":"1984",
+		"leader":"INC",
+		"primeMinister" :{
+			"name" : "Indira Gandhi",
+			"picture" : "1395677826153/Indira-Gandhi-003.jpg"
+		},
+		"notes": "Optional Note Here"
+	},
+	{
+		"startYear":"1984",
+		"endYear":"1989",
+		"leader":"INC",
+		"primeMinister" :{
+			"name" : "Rajiv Gandhi",
+			"picture" : "1395678584401/Rajiv-Gandhi-003.jpg"
+		},
+		"notes": "Optional Note Here"
+	},
+	{
+		"startYear":"1989",
+		"endYear":"1990",
+		"leader":"Janata Dal",
+		"primeMinister" :{
+			"name" : "V. P. Singh",
+			"picture" : "1395678745300/V.P.-Singh-003.jpg"
+		},
+		"notes": "Optional Note Here"
+	},
+	{
+		"startYear":"1990",
+		"endYear":"1991",
+		"leader":"Samajwadi Janata Party",
+		"primeMinister" :{
+			"name" : "Chandra Shekhar",
+			"picture" : "1395678823491/Chandra-Shekhar-003.jpg"
+		},
+		"notes": "Optional Note Here"
+	},
+	{
+		"startYear":"1991",
+		"endYear":"1996",
+		"leader":"INC",
+		"primeMinister" :{
+			"name" : "P. V. Narasimha Rao",
+			"picture" : "1395679653502/P.V.-Narasimha-Rao-003.jpg"
+		},
+		"notes": "Optional Note Here"
+	},
+	{
+		"startYear":"1996",
+		"endYear":"1997",
+		"leader":"Janata Dal",
+		"primeMinister" :{
+			"name" : "H. D. Deve Gowda",
+			"picture" : "1395679935809/H.D.-Deve-Gowda-003.jpg"
+		},
+		"notes": "Optional Note Here"
+	},
+	{
+		"startYear":"1997",
+		"endYear":"1998",
+		"leader":"Janata Dal",
+		"primeMinister" :{
+			"name" : "I. K. Gujral",
+			"picture" : "1395680010388/Inder-Kumar-Gujral-003.jpg"
+		},
+		"notes": "Optional Note Here"
+	},{
+		"startYear":"1998",
+		"endYear":"2004",
+		"leader":"BJP",
+		"primeMinister" :{
+			"name" : "Atal Bihari Vajpayee",
+			"picture" : "1395679808850/Atal-Bihari-Vajpayee-003.jpg"
+		},
+		"notes": "Optional Note Here"
+	},{
+		"startYear":"2004",
+		"endYear":"2014",
+		"leader":"INC",
+		"primeMinister" :{
+			"name" : "Manmohan Singh",
+			"picture" : "1395680094634/Manmohan-Singh-003.jpg"
+		},
+		"notes": "Optional Note Here"
+	}
+
+
+]
