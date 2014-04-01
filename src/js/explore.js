@@ -13,13 +13,15 @@ var INDIA = (function() {
     var $bjpCount;
     var $incCount;
     var outputData;
+    var chart;
 
     function render() {
         $swingPercent.html(swingAmount + '%');
         $bjpCount.html(outputData.parties.BJP);
         $incCount.html(outputData.parties.INC);
+        renderChart();
         renderTable();
-        renderSeats();
+        //renderSeats();
     }
 
     /**
@@ -75,15 +77,16 @@ var INDIA = (function() {
 
             // Calculate BJP swing vote count
             var bjpVotes = bjpCanidate.votes_secured.total;
-            var swingVotes = bjpVotes * swingPercentage;
+            var swingVotes = totalVotes * swingPercentage;
+            var swingVotesTotal = bjpVotes + swingVotes;
 
             // Store swing vote count and new BJP total votes
             bjpCanidate.swingVotes = swingVotes;
-            bjpCanidate.swingVotesTotal = bjpVotes + swingVotes;
+            bjpCanidate.swingVotesTotal = swingVotesTotal;
 
             // Total of remaining parties votes after removing BJP votes
             // (before addition of swing votes)
-            var remainingVotes = totalVotes - bjpVotes;
+            var remainingVotes = totalVotes - swingVotesTotal;
 
             _.map(cons.candidates, function(can) {
                 // Only precess non-BJP parties
@@ -120,8 +123,6 @@ var INDIA = (function() {
 
         var bjpWinningConstituencies = [];
 
-
-
         _.map(sourceData, function(constituency) {
             // Find the new winning part
             var winningParty = _.max(constituency.candidates, function(con) {
@@ -147,6 +148,13 @@ var INDIA = (function() {
             if (partyName === 'BJP' && winningParty.position !== 1) {
                 // Calculate marginality
                 constituency.bjpMargin = sortedWinners[0].swingVotesTotal - sortedWinners[1].swingVotesTotal;
+                constituency.swingPositions = [
+                    sortedWinners[0],
+                    sortedWinners[1]
+                ];
+
+                var gapPercentage = (constituency.bjpMargin / sortedWinners[0].swingVotesTotal) * 100;
+                constituency.gapPercentage = gapPercentage;
                 bjpWinningConstituencies.push(constituency);
             }
         });
@@ -156,6 +164,8 @@ var INDIA = (function() {
             return con.bjpMargin;
         });
         winners.constituencies = winners.constituencies.slice(0, 5);
+
+
 
         return winners;
     }
@@ -193,7 +203,45 @@ var INDIA = (function() {
     }
 
     function renderSeats() {
+
         $seats.html(_.template(seatTemplate, outputData));
+    }
+
+    function renderChart() {
+        var chartData = _.map(outputData.parties, function(value, key) {
+            return { partyCode: key, count: value };
+        });
+
+
+        var maxVotes = _.max(chartData, function(party) {
+            return party.count;
+        });
+        console.log(chartData.length);
+
+        xScale =  d3.scale.linear()
+            .domain([0, 250])
+            .range([0, 420]);
+
+        if (!chart) {
+            chart = d3.select('#seat_chart')
+                .selectAll('div')
+                    .data(chartData)
+                .enter()
+                .append('div')
+                    .attr('class', 'bar')
+                    .style('width', function(d) { return xScale(d.count) + 'px'; })
+                    .text(function(d) { return d.partyCode + ': ' + d.count; });
+        } else {
+            $('#seat_chart').empty();
+            chart = d3.select('#seat_chart')
+                .selectAll('div')
+                    .data(chartData)
+                .enter()
+                .append('div')
+                    .attr('class', 'bar')
+                    .style('width', function(d) { return xScale(d.count) + 'px'; })
+                    .text(function(d) { return d.partyCode + ': ' + d.count; });
+        }
     }
 
     function init() {
