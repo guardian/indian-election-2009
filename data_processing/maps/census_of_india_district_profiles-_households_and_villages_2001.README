@@ -1,0 +1,62 @@
+Census of India, District Profiles- Households and Villages, 2001
+
+This dataset contains the household and village details of the District Profiles that are part of the Census of India 2001. It provides information if homes are temporary or permanent and also described information on availability of amenities in villages such as electricity, type of roads and medical care.
+
+
+Attributes:
+VILLSECOND: Villages with Secondary/Sr Secondary Schools - Villages with Secondary/Sr Secondary Schools
+
+INHABVILL: Total Inhabited Villates - Total Inhabited Villages
+
+ELECTDOMES: Villages with Electricity (Domestic) - Villages with Electricity (Domestic)
+
+ELECTAGRIC: Villages with Electricity (Agriculture) - Villages with Electricity (Agriculture)
+
+VILLCOLLEG: Villages with College - Villages with College
+
+VILLAGEPOS: Villages with Post, Telegraph and Telephone Facility - Villages with Post, Telegraph and Telephone Facility
+
+VILLBUS: Villages with Bus Service - Number of Villages with Bus Service
+
+DISTSHP: District Name (shapefile) - District Name according to shapefile
+VILLPRIMAR: Villages with Primary Schools - Number of Villages with Primary Schools
+
+FIRST_ISO: Iso - ISO
+FIRST_NAME: Country - Country
+DISTCENSUS: District Name (census) - District Name according to Census
+PERCENTSEM: Percent of Households Occupying Semi-Permanent Homes - Percent of Households Occupying Semi-Permanent Homes
+
+ELECTPOWER: Villages with Electricity (Power Supply) - Villages with Electricity (Power Supply)
+
+VILLMEDFAC: Villages with Medical Facility - Number of Villages with Medical Facility
+
+VILLPRIMHE: Villages with Primary Health Centre - Number of Villages with Primary Health Centre
+
+PERCENTTEM: Percent of Households Occupying Temporary Homes - Percent of Households Occupying Temporary Homes
+
+TOTHOMES: Total Number of Households - Total Number of Households
+
+HHSIZE: Average Household Size - Average Household Size
+
+STATE: State (census) - State name according to Census
+TOTPOP: Total Population - Total Population
+
+PERCENTPER: Percent of Households Occupying Permanent Homes - Percent of Households Occupying Permanent Homes
+
+NAME_2: District Name - District name
+VILLMIDDLE: Villages with Middle Schools - Number of Villages with Middle Schools
+
+FIRST_NA_1: State Name - State Name
+CENSUCODE: District Code - The numerical code given to each district by the Census of India
+DRINKWATER: Villages with Drinking Water Facilities - Number of Villages with Drinking Water Facilities
+
+VILLPRIMSU: Villages with Primary Sub-Centre - Number of Villages with Primary Sub-Centre health facilities
+
+VILLMUDROA: Villages with Mud Approach Road - Number of Villages with Mud Approach Road
+
+SAFEWATER: Villages with Safe Drinking Water - Number of Villages with Safe Drinking Water
+
+VILLPAVED: Villages with Paved Approach Road - Number of Villages with Paved Approach Road
+
+
+exported on Mon Nov 05 23:33:42 -0500 2012

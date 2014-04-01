@@ -1,11 +1,17 @@
 #data_set_map {
-    width: 450px;
+    width: 200px;
     height: 250px;
+    border: 1px solid #EEE;
+    float: left;
 }
 
 #data_set_nav div.active {
     font-weight: bold;
     background: red;
+}
+
+#data_chart {
+    float: left;
 }
 
 .data-set-title {
