@@ -225,6 +225,8 @@ var INDIA = (function() {
         tabelTemplate = $('#table_template').html();
         seatTemplate = $('#seat_template').html();
         takenTemplate = $('#taken_template').html();
+
+        $(window).resize(_.debounce(renderPartyChart, 200));
     }
 
     function renderTable() {
@@ -314,6 +316,8 @@ var INDIA = (function() {
         var $tooltip;
         var degree = Math.PI/180; // just to convert the radian-numbers
 
+        $('.pies').empty();
+
         //$tooltip = $('.tooltip');
         var partyChartWrapper = d3.select('.pie-chart')
             .style({
@@ -325,13 +329,13 @@ var INDIA = (function() {
                 "width" : width + "px"
             })
             .append('div')
-            .attr('class','parties')
+                .attr('class','parties')
             .append('svg')
-            .data([data])
-            .attr("height", height +20)
-            .attr("width", width)
-            .append('g')
-            .attr("transform","translate(" + radius + "," + radius + ")");
+                .data([data])
+                .attr("height", height +20)
+                .attr("width", width)
+                .append('g')
+                .attr("transform","translate(" + radius + "," + radius + ")");
 
 
         var arc = d3.svg.arc()
