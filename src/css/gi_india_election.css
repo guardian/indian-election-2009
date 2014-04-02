@@ -38,7 +38,7 @@ body{
    -webkit-appearance:none !important;
    background:#fff;
    height:6px;
-   width:40%;
+   width:100%;
    border-radius:3px;
    box-shadow: inset 0 1px 1px rgba(0,0,0,0.4);
  }
@@ -84,4 +84,11 @@ body{
     text-align: center;
     margin-bottom: 5px;
     cursor: pointer;
-};
+}
+
+@media (min-width:480px){
+
+    #data_wrapper input[type="range"]{
+        width:40%;
+    }
+}

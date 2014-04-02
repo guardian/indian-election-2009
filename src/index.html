@@ -71,18 +71,19 @@
             <table id="constituencies_table">
                 <thead>
                     <tr>
+                        <th>Party name</th>
                         <th>State</th>
                         <th>Constitunecy</th>
-                        <th>2009 winner</th>
+                        
                         <th>2009 majority</th>
                         <th>Projected BJP majority</th>
                     </tr>
                 </thead>
                 <% _.each(constituencies, function(constituency, i) { %>
                     <tr>
+                        <td><%= constituency.party %></td>
                         <td><%= constituency.state %></td>
                         <td><%= constituency.constituency %></td>
-                        <td><%= constituency.party %></td>
                         <td><%= constituency.majority %>%</td>
                         <td><%= constituency.bjpMajority %>%</td>
                     </tr>
