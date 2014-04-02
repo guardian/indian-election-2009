@@ -21,10 +21,9 @@ var INDIA = (function() {
         $swingPercent.html(swingAmount + '%');
         $bjpCount.html(outputData.parties.BJP);
         $incCount.html(outputData.parties.INC);
-        renderChart();
         renderTable();
-        //renderTakenSeats();
-        //renderSeats();
+        renderPartyChart();
+        console.log(outputData);
     }
 
     /**
@@ -101,6 +100,7 @@ var INDIA = (function() {
             bjpCanidate.swingVotes = swingVotes;
             bjpCanidate.swingVotesTotal = swingVotesTotal;
             cons.bjpMajority = (swingVotesTotal / totalVotes) * 100;
+            cons.totalVotes = totalVotes;
 
             // Total of remaining parties votes after removing BJP votes
             // (before addition of swing votes)
@@ -181,7 +181,8 @@ var INDIA = (function() {
                     sortedWinners[1]
                 ];
 
-                var gapPercentage = (constituency.bjpMargin / sortedWinners[0].swingVotesTotal) * 100;
+                var gapPercentage = (constituency.bjpMargin / constituency.totalVotes) * 100;
+                console.log(gapPercentage, constituency.bjpMargin, constituency.totalVotes);
                 constituency.gapPercentage = gapPercentage;
                 bjpWinningConstituencies.push(constituency);
             }
@@ -189,7 +190,7 @@ var INDIA = (function() {
 
         // Store narrowest five marginality constituencies
         winners.constituencies = _.sortBy(bjpWinningConstituencies, function(con) {
-            return con.bjpMargin;
+            return con.gapPercentage;
         });
         winners.constituencies = winners.constituencies.slice(0, 5);
 
@@ -227,22 +228,16 @@ var INDIA = (function() {
     }
 
     function renderTable() {
-
-
-        //  "percent_votes_secured": {
-        //   "over_total_electors_in_constituency": 9.98,
-        //   "over_total_votes_polled_in_constituency": 13.08
-        // },
-        //
-        console.log(outputData);
-
         var cons = _.map(outputData.constituencies, function(constituency) {
+            var margin = constituency.candidates[0].percent_votes_secured.over_total_votes_polled_in_constituency -
+            constituency.candidates[1].percent_votes_secured.over_total_votes_polled_in_constituency;
+
             return {
                 state: constituency.state,
                 constituency: toTitleCase(constituency.constituency),
                 party: partyNames[constituency.candidates[0].party],
-                majority: constituency.candidates[0].percent_votes_secured.over_total_votes_polled_in_constituency,
-                bjpMajority: constituency.bjpMajority.toFixed(2)
+                majority: margin.toFixed(2),
+                bjpMajority: constituency.gapPercentage.toFixed(2)
             };
         });
 
@@ -253,49 +248,122 @@ var INDIA = (function() {
         $table.html(_.template(tabelTemplate, templateData));
     }
 
-    function renderSeats() {
-        $seats.html(_.template(seatTemplate, outputData));
-    }
-
-    function renderTakenSeats() {
-        $takenSeats.html(_.template(takenTemplate, outputData));
-    }
-
-    function renderChart() {
-        var chartData = _.map(outputData.parties, function(value, key) {
-            return { partyCode: key, count: value };
-        });
-
-
-        var maxVotes = _.max(chartData, function(party) {
-            return party.count;
-        });
-        console.log(chartData.length);
-
-        xScale =  d3.scale.linear()
-            .domain([0, 250])
-            .range([0, 420]);
-
-        if (!chart) {
-            chart = d3.select('#seat_chart')
-                .selectAll('div')
-                    .data(chartData)
-                .enter()
-                .append('div')
-                    .attr('class', 'bar')
-                    .style('width', function(d) { return xScale(d.count) + 'px'; })
-                    .text(function(d) { return d.partyCode + ': ' + d.count; });
-        } else {
-            $('#seat_chart').empty();
-            chart = d3.select('#seat_chart')
-                .selectAll('div')
-                    .data(chartData)
-                .enter()
-                .append('div')
-                    .attr('class', 'bar')
-                    .style('width', function(d) { return xScale(d.count) + 'px'; })
-                    .text(function(d) { return d.partyCode + ': ' + d.count; });
+    function renderPartyChart(){
+        var width;
+        var screenWidth = $(window).width();
+        if (screenWidth >= 540 && screenWidth < 620) {
+            width = screenWidth - 280;
+        } else if (screenWidth >= 620){
+            width = 620 - 280;
+        } else{
+            width = screenWidth -20;
         }
+
+
+        var data = [];
+        var otherParties = {
+            'partyCode': 'OTHERS',
+            'party' : 'Other parties',
+            'seats' : 0,
+            'Alliance' : ''
+        };
+
+        var bjpParty;
+
+        _.map(outputData.parties, function(i, partyCode, parties) {
+            if (parties[partyCode] < 10) {
+                otherParties.seats += 1;
+                return;
+            }
+
+            var result = {
+                'partyCode': partyCode,
+                'party' : partyNames[partyCode],
+                'seats' : parties[partyCode],
+                'Alliance' : ''
+            };
+
+            if (partyCode === 'BJP') {
+                bjpParty = result;
+            } else {
+                data.push(result);
+            }
+        });
+
+        data.push(otherParties);
+        data.push(bjpParty);
+
+        var height = width / 2;
+        var padding = 10;
+        var radius = height;
+
+        var colors = {
+            'INC'   : 'rgb(0, 255, 255)',
+            'BJP'   : 'rgb(255, 165, 0)',
+            'CPM'   : 'rgb(255, 0, 0)',
+            'BSP'   : 'rgb(0, 0, 255)',
+            'SHS'   : 'rgb(255, 165, 0)',
+            'BJD'   : 'rgb(0, 66, 37)',
+            'DMK'   : 'rgb(0, 0, 0)',
+            'SP'    : 'rgb(255, 0, 0)',
+            'AITC'  : 'rgb(102, 255, 0)',
+            'JD(U)' : 'rgb(0, 128, 0)',
+            'OTHERS': 'rgb(150, 150, 150)'
+        };
+
+        var $tooltip;
+        var degree = Math.PI/180; // just to convert the radian-numbers
+
+        //$tooltip = $('.tooltip');
+        var partyChartWrapper = d3.select('.pie-chart')
+            .style({
+                "width" : width + "px"
+            })
+            .select('.pies')
+            .style({
+                "height" : height + 20 + "px",
+                "width" : width + "px"
+            })
+            .append('div')
+            .attr('class','parties')
+            .append('svg')
+            .data([data])
+            .attr("height", height +20)
+            .attr("width", width)
+            .append('g')
+            .attr("transform","translate(" + radius + "," + radius + ")");
+
+
+        var arc = d3.svg.arc()
+            .outerRadius(radius);
+
+        var pie = d3.layout.pie()
+            .value(function(d) {
+                return d.seats;
+            })
+            .sort(null)
+            .startAngle(-90 * degree).endAngle(90 * degree);
+
+        var arcs = partyChartWrapper.selectAll("g.slice")     //this selects all <g> elements with class slice (there aren't any yet)
+            .data(pie)                          //associate the generated pie data (an array of arcs, each having startAngle, endAngle and value properties)
+            .enter()
+            .append('g')
+            .attr('class','slice');
+            // .on("mouseover", function(d){
+            //     $tooltip.html("<p class='tooltipAlliance'><span class='allianceColor' style='color:"+colors[d.data.Alliance]+";'>" +d.data.Alliance+"</span></p><p class='tooltipParty'>" + d.data.Party + "</p><p class='tooltipSeats'> "+d.data.Seats+" seats</p>")
+            //     $tooltip.css("border-color",colors[d.data.Alliance]);
+
+            // })
+            // .on("mouseleave", function(d){
+            //     $tooltip.html("<p class='tooltipStatus'>Hover over a party to see more information</p>")
+            //     $tooltip.css("border-color",colors[d.data.Alliance]);
+            //     $tooltip.css("border-color","#333");
+            // });
+
+
+        arcs.append("path")
+            .attr("fill", function(d, i) { return colors[d.data.partyCode]; } )
+            .attr("d", arc);
     }
 
     function toTitleCase(str) {
@@ -313,127 +381,6 @@ var INDIA = (function() {
 
     return { init: init };
 }());
-
-
-
-
-var w;
-var screenWidth = $(window).width();
-console.log(screenWidth);
-if(screenWidth>=540 && screenWidth < 620){
-    w = screenWidth -280;
-}else if(screenWidth>=620){
-    w = 620 - 280;
-}else{
-    w = screenWidth -20;
-}
-var data = [
-    {"Alliance":"UPA, governing coalition","Party":"Indian National Congress","Seats": 206},
-    {"Alliance":"UPA, governing coalition","Party":"Nationalist Congress Party","Seats": 8},
-    {"Alliance":"UPA, governing coalition","Party":"Other Parties","Seats": 12},
-    {"Alliance":"Supporters of UPA","Party":"Samajwadi Party","Seats": 22},
-    {"Alliance":"Supporters of UPA","Party":"Bahujan Samaj Party","Seats": 21},
-    {"Alliance":"NDA, opposition of UPA","Party":"Bharatiya Janta Party","Seats": 116},
-    {"Alliance":"NDA, opposition of UPA","Party":"Janata Dal","Seats": 20},
-    {"Alliance":"NDA, opposition of UPA","Party":"Shiv Sena","Seats": 11},
-    {"Alliance":"NDA, opposition of UPA","Party":"Other Parties","Seats": 12},
-    {"Alliance":"Others","Party":"Communist Party Of India","Seats": 16},
-    {"Alliance":"Others","Party":"Biju Janata Dal","Seats": 14},
-    {"Alliance":"Others","Party":"All India Anna Dravida Munnetra Kazhagam","Seats": 9},
-    {"Alliance":"Others","Party":"Telugu Desam","Seats": 6},
-    {"Alliance":"Others","Party":"Other Parties","Seats": 14}
-];
-var h = w/2;
-var padding = 10;
-var r = h;
-var dataAlliances = [
-    {"Alliance":"UPA, governing coalition", "Seats":229},
-    {"Alliance":"Supporters of UPA","Seats":138},
-    {"Alliance":"NDA, opposition of UPA","Seats": 75},
-    {"Alliance":"Others","Seats":26}
-];
-colors = {
-    "UPA, governing coalition" : "#005689",
-    "Supporters of UPA" : "#4490CE",
-    "NDA, opposition of UPA" : "#6BA83F",
-    "Others" : "#F66980",
-    "Other Parties and Independents" : "#D23E55"
-}
-var $tooltip;
-var degree = Math.PI/180; // just to convert the radian-numbers
-
-console.log(w);
-createPartyChart();
-$tooltip = $('.tooltip');
-
-
-
-
-function createPartyChart(){
-    var partyChartWrapper = d3.select('.pie-chart')
-        .style({
-            "width" : w + "px"
-        })
-        .select('.pies')
-        .style({
-            "height" : h + 20 + "px",
-            "width" : w + "px"
-        })
-        .append('div')
-        .attr('class','parties')
-        .append('svg')
-        .data([data])
-        .attr("height",h +20)
-        .attr("width",w)
-        .append('g')
-        .attr("transform","translate("+r+","+r+")")
-
-
-
-    var arc = d3.svg.arc()
-        .outerRadius(r);
-
-    var pie = d3.layout.pie()
-        .value(function(d) {
-            return d.Seats;
-        })
-        .sort(null)
-        .startAngle(-90*degree).endAngle(90*degree);
-
-    var arcs = partyChartWrapper.selectAll("g.slice")     //this selects all <g> elements with class slice (there aren't any yet)
-        .data(pie)                          //associate the generated pie data (an array of arcs, each having startAngle, endAngle and value properties)
-        .enter()
-        .append('g')
-        .attr('class','slice')
-        .on("mouseover", function(d){
-            $tooltip.html("<p class='tooltipAlliance'><span class='allianceColor' style='color:"+colors[d.data.Alliance]+";'>" +d.data.Alliance+"</span></p><p class='tooltipParty'>" + d.data.Party + "</p><p class='tooltipSeats'> "+d.data.Seats+" seats</p>")
-            $tooltip.css("border-color",colors[d.data.Alliance]);
-
-        })
-        .on("mouseleave", function(d){
-            $tooltip.html("<p class='tooltipStatus'>Hover over a party to see more information</p>")
-            $tooltip.css("border-color",colors[d.data.Alliance]);
-            $tooltip.css("border-color","#333");
-        });
-
-    var centreLine = partyChartWrapper
-        .append('line')
-        .attr('class', 'centreLine')
-        .attr('x1', 0)
-        .attr('x2', 0)
-        .attr('y1', -h)
-        .attr('y2', 10)
-        .attr('stroke-width', 2)
-        .attr('stroke', "rgba(0,0,0,1)")
-
-    arcs.append("path")
-        .attr("fill", function(d, i) { return colors[d.data.Alliance] } )
-        .attr("d", arc);
-
-}
-
-
-
 
 
 $(document).ready(INDIA.init);

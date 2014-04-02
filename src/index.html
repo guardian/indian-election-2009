@@ -5,21 +5,25 @@
     <title>India</title>
 
     <link type="text/css" rel="stylesheet" href="css/gi_india_election.css" />
-
+    <link rel="stylesheet" href="css/pasteup-dev-fonts.css">
+    <!-- <link rel="stylesheet" href="http://pasteup.guim.co.uk/0.0.5/css/fonts.pasteup.min.css"> -->
     <style>
         #output { width: 500px;}
         table {
            border-collapse: collapse;
+           font-size:12px;
+           width:100%;
         }
 
         th {
             font-weight: bold;
             cursor: pointer;
+            text-align:left;
         }
 
         td, th {
             margin: 0;
-             border: 1px solid #999;
+            padding:3px;
         }
 
         #seats p {
@@ -29,7 +33,7 @@
         }
 
         #swingPercent {
-            font-size: 20px;
+
             font-weight: bold;
         }
 
@@ -50,10 +54,10 @@
     <body>
 
         <div id="data_wrapper">
-            <p>Swing percentage <span id="swingPercent"></span></p>
-            <input id="slider" type="range" value="0" max="10" step="1" />
-            <p>INC <span id="incCount"></span> - BJP <span id="bjpCount"></span></p>
+            <h1>Swing-o-Meter</h1>
+            <h2>What does the House look like with different swings?</h2>
 
+            <input id="slider" type="range" value="0" max="10" step="1" />
 
             <div class="introduction clearfix">
                 <h1>The current Lok Sabha</h1>
@@ -61,18 +65,20 @@
                 <div class="tooltip"><p class='tooltipStatus'>Hover or tap for details</p></div>
             </div>
 
-
             <div class="pie-chart">
                 <div class="pies"></div>
                 <div class="legend">
                 <p><span class='allianceColor' style='background-color:#005689;'></span>UPA, governing coalition (262 seats)</p>
                 <p><span class='allianceColor' style='background-color:#4490CE;'></span>Supporters of UPA (43 seats)</p>
-                <p><span class='allianceColor' style='background-color:#6BA83F;'></span>NDA, opposition of UPA (75 seats)</p>
-                <p><span class='allianceColor' style='background-color:#f66980;'></span>Others (26 seats)</p>
                 </div>
             </div>
 
+
+            <p id="swing_label">Swing percentage <span id="swingPercent"></span></p>
+            <!-- <p>INC <span id="incCount"></span> - BJP <span id="bjpCount"></span></p> -->
+
             <div id="taken_container"></div>
+            <h3>Latest 5 parties that lost a seat</h3>
             <div id="table_container"></div>
             <div id="seat_chart"></div>
             <div id="seat_container"></div>
@@ -83,7 +89,7 @@
                 <thead>
                     <tr>
                         <th>State</th>
-                        <th>Constitunecy</th>
+                        <th>Constituency</th>
                         <th>2009 winner</th>
                         <th>2009 majority</th>
                         <th>Projected BJP majority</th>
