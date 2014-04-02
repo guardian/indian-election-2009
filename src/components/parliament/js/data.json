@@ -1,92 +1,18 @@
 [
-    {
-        "Alliance": "United Progressive Alliance (coalition)",
-        "Party": "Indian National Congress",
-        "Seats": 206
-    },
-    {
-        "Alliance": "United Progressive Alliance (coalition)",
-        "Party": "Nationalist Congress Party",
-        "Seats": 9
-    },
-    {
-        "Alliance": "United Progressive Alliance (coalition)",
-        "Party": "Other Parties in the United Progressive Alliance",
-        "Seats": 14
-    },
-    {
-        "Alliance": "National Democratic Alliance",
-        "Party": "Bharatiya Janata Party",
-        "Seats": 117
-    },
-    {
-        "Alliance": "National Democratic Alliance",
-        "Party": "Shiv Sena",
-        "Seats": 11
-    },
-    {
-        "Alliance": "National Democratic Alliance",
-        "Party": "Other Parties in the National Democratic Alliance",
-        "Seats": 8
-    },
-    {
-        "Alliance": "Third Front",
-        "Party": "Bahujan Samaj Party",
-        "Seats": 21
-    },
-    {
-        "Alliance": "Third Front",
-        "Party": "Communist Party of India (Marxist)",
-        "Seats": 15
-    },
-    {
-        "Alliance": "Third Front",
-        "Party": "Biju Janata Dal",
-        "Seats": 14
-    },
-    {
-        "Alliance": "Third Front",
-        "Party": "All India Anna Dravida Munnetra Kazhagam",
-        "Seats": 9
-    },
-    {
-        "Alliance": "Third Front",
-        "Party": "Other Parties in the Third Front",
-        "Seats": 16
-    },
-    {
-        "Alliance": "Fourth Front",
-        "Party": "Samajwadi Party",
-        "Seats": 22
-    },
-    {
-        "Alliance": "Fourth Front",
-        "Party": "Rashtriya Janata Dal",
-        "Seats": 4
-    },
-    {
-        "Alliance": "Other Parties and Independents",
-        "Party": "Janata Dal (United)",
-        "Seats": 20
-    },
-    {
-        "Alliance": "Other Parties and Independents",
-        "Party": "All India Trinamool Congress",
-        "Seats": 19
-    },
-    {
-        "Alliance": "Other Parties and Independents",
-        "Party": "Dravida Munnetra Kazhagam",
-        "Seats": 18
-    },
-    {
-        "Alliance": "Other Parties and Independents",
-        "Party": "Independents",
-        "Seats": 9
-    },
-    {
-        "Alliance": "Other Parties and Independents",
-        "Party": "Other Parties",
-        "Seats": 9
-    }
+{"Alliance":"UPA, governing coalition","Party":"Indian National Congress","Seats": 206},
+{"Alliance":"UPA, governing coalition","Party":"Nationalist Congress Party","Seats": 8},
+{"Alliance":"UPA, governing coalition","Party":"Other Parties","Seats": 12},
+{"Alliance":"Supporters of UPA","Party":"Samajwadi Party","Seats": 22},
+{"Alliance":"Supporters of UPA","Party":"Bahujan Samaj Party","Seats": 21},
+{"Alliance":"NDA, opposition of UPA","Party":"Bharatiya Janta Party","Seats": 116},
+{"Alliance":"NDA, opposition of UPA","Party":"Janata Dal","Seats": 20},
+{"Alliance":"NDA, opposition of UPA","Party":"Shiv Sena","Seats": 11},
+{"Alliance":"NDA, opposition of UPA","Party":"Other Parties","Seats": 12},
+{"Alliance":"Others","Party":"Communist Party Of India","Seats": 16},
+{"Alliance":"Others","Party":"Biju Janata Dal","Seats": 14},
+{"Alliance":"Others","Party":"All India Anna Dravida Munnetra Kazhagam","Seats": 9},
+{"Alliance":"Others","Party":"Telugu Desam","Seats": 6},
+{"Alliance":"Others","Party":"Other Parties","Seats": 14}
 ]
+
+
