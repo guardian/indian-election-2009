@@ -39,14 +39,21 @@
             background-color: #38F;
             margin-bottom: 1px;
         }
+
+        #seat_chart {
+            position: absolute;
+            top: 0;
+            right: 50px;
+        }
     </style>
 </head>
     <body>
 
         <div id="data_wrapper">
             <p>Swing percentage <span id="swingPercent"></span></p>
-            <p>INC <span id="incCount"></span> - BJP <span id="bjpCount"></span></p>
             <input id="slider" type="range" value="0" max="10" step="1" />
+            <p>INC <span id="incCount"></span> - BJP <span id="bjpCount"></span></p>
+            <div id="taken_container"></div>
             <div id="table_container"></div>
             <div id="seat_chart"></div>
             <div id="seat_container"></div>
@@ -58,27 +65,18 @@
                     <tr>
                         <th>State</th>
                         <th>Constitunecy</th>
-                        <th>Total electors</th>
-                        <th>BJP marginality (votes)</th>
-                        <th>Gap %</th>
-                        <th>1st party</th>
-                        <th>1st votes</th>
-                        <th>2nd party</th>
-                        <th>2nd votes</th>
+                        <th>2009 winner</th>
+                        <th>2009 majority</th>
+                        <th>Projected BJP majority</th>
                     </tr>
                 </thead>
                 <% _.each(constituencies, function(constituency, i) { %>
                     <tr>
                         <td><%= constituency.state %></td>
                         <td><%= constituency.constituency %></td>
-                        <td><%= constituency.total_electors %></td>
-                        <td><%= constituency.bjpMargin %></td>
-                        <td><%= constituency.gapPercentage %></td>
-                        <td><%= constituency.swingPositions[0].party %></td>
-                        <td><%= constituency.swingPositions[0].swingVotesTotal %></td>
-                        <td><%= constituency.swingPositions[1].party %></td>
-                        <td><%= constituency.swingPositions[1].swingVotesTotal %></td>
-
+                        <td><%= constituency.party %></td>
+                        <td><%= constituency.majority %>%</td>
+                        <td><%= constituency.bjpMajority %>%</td>
                     </tr>
                 <% }); %>
             </div>
@@ -87,6 +85,15 @@
         <script type="text/template" id="seat_template">
             <div id="seats">
                 <% _.each(parties, function(seatCount, partyCode) { %>
+                    <p>Party: <%= partyCode %> = <%= seatCount %> seats</p>
+                <% }); %>
+            </div>
+        </script>
+
+        <script type="text/template" id="taken_template">
+            <h2>Seats taken from:</h2>
+            <div id="taken_seats">
+                <% _.each(takenSeats, function(seatCount, partyCode) { %>
                     <p>Party: <%= partyCode %> = <%= seatCount %> seats</p>
                 <% }); %>
             </div>
