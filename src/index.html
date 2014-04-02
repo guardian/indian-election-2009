@@ -5,21 +5,25 @@
     <title>India</title>
 
     <link type="text/css" rel="stylesheet" href="css/gi_india_election.css" />
-
+    <link rel="stylesheet" href="css/pasteup-dev-fonts.css">
+    <!-- <link rel="stylesheet" href="http://pasteup.guim.co.uk/0.0.5/css/fonts.pasteup.min.css"> -->
     <style>
         #output { width: 500px;}
         table {
            border-collapse: collapse;
+           font-size:12px;
+           width:100%;
         }
 
         th {
             font-weight: bold;
             cursor: pointer;
+            text-align:left;
         }
 
         td, th {
             margin: 0;
-             border: 1px solid #999;
+            padding:3px;
         }
 
         #seats p {
@@ -29,7 +33,7 @@
         }
 
         #swingPercent {
-            font-size: 20px;
+            
             font-weight: bold;
         }
 
@@ -50,10 +54,14 @@
     <body>
 
         <div id="data_wrapper">
-            <p>Swing percentage <span id="swingPercent"></span></p>
+            <h1>Swing-o-Meter</h1>
+            <h2>What does the House look like with different swings?</h2>
+            
             <input id="slider" type="range" value="0" max="10" step="1" />
-            <p>INC <span id="incCount"></span> - BJP <span id="bjpCount"></span></p>
+            <p id="swing_label">Swing percentage <span id="swingPercent"></span></p>
+            <!-- <p>INC <span id="incCount"></span> - BJP <span id="bjpCount"></span></p> -->
             <div id="taken_container"></div>
+            <h3>Latest 5 parties that lost a seat</h3>
             <div id="table_container"></div>
             <div id="seat_chart"></div>
             <div id="seat_container"></div>
