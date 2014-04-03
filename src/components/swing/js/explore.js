@@ -33,9 +33,11 @@ var INDIA = (function() {
         if (swingAmount === _swingVal) {
             return;
         }
+
         swingAmount = _swingVal;
-        calcSwing();
-        outputData = calcSeats();
+        //calcSwing();
+        //outputData = calcSeats();
+        outputData = results[swingAmount];
         render();
     }
 
@@ -45,20 +47,6 @@ var INDIA = (function() {
     }
 
     function populateData(_data) {
-
-        var p = [];
-        var list = '';
-        _.map(_data, function(con) {
-            _.map(con.candidates, function(can) {
-                if (p.indexOf(can.party) === -1) {
-                    p.push(can.party);
-                    list += can.party + '\n';
-                }
-            });
-        });
-
-        window.list = list;
-
         sourceData = _data;
         handleRangeChange();
     }
@@ -174,11 +162,8 @@ var INDIA = (function() {
 
 
                 // Calculate marginality
-                constituency.bjpMargin = sortedWinners[0].swingVotesTotal - sortedWinners[1].swingVotesTotal;
-                constituency.swingPositions = [
-                    sortedWinners[0],
-                    sortedWinners[1]
-                ];
+                constituency.bjpMargin = parseInt(sortedWinners[0].swingVotesTotal - sortedWinners[1].swingVotesTotal, 10);
+                console.log('calc: constituency.bjpMargin', constituency.bjpMargin);
 
                 var gapPercentage = (constituency.bjpMargin / constituency.totalVotes) * 100;
                 constituency.gapPercentage = gapPercentage;
@@ -309,15 +294,6 @@ var INDIA = (function() {
             'AITC'  : 'rgb(200,200,200)',
             'JD(U)' : 'rgb(200,200,200)',
             'OTHERS': 'rgb(200,200,200)'
-            // 'CPM'   : 'rgb(255, 0, 0)',
-            // 'BSP'   : 'rgb(0, 0, 255)',
-            // 'SHS'   : 'rgb(255, 165, 0)',
-            // 'BJD'   : 'rgb(0, 66, 37)',
-            // 'DMK'   : 'rgb(0, 0, 0)',
-            // 'SP'    : 'rgb(255, 0, 0)',
-            // 'AITC'  : 'rgb(102, 255, 0)',
-            // 'JD(U)' : 'rgb(0, 128, 0)',
-            // 'OTHERS': 'rgb(150, 150, 150)'
         };
 
         var $tooltip;
@@ -360,17 +336,6 @@ var INDIA = (function() {
             .enter()
             .append('g')
             .attr('class','slice');
-            // .on("mouseover", function(d){
-            //     $tooltip.html("<p class='tooltipAlliance'><span class='allianceColor' style='color:"+colors[d.data.Alliance]+";'>" +d.data.Alliance+"</span></p><p class='tooltipParty'>" + d.data.Party + "</p><p class='tooltipSeats'> "+d.data.Seats+" seats</p>")
-            //     $tooltip.css("border-color",colors[d.data.Alliance]);
-
-            // })
-            // .on("mouseleave", function(d){
-            //     $tooltip.html("<p class='tooltipStatus'>Hover over a party to see more information</p>")
-            //     $tooltip.css("border-color",colors[d.data.Alliance]);
-            //     $tooltip.css("border-color","#333");
-            // });
-
 
         arcs.append("path")
             .attr("fill", function(d, i) { return colors[d.data.partyCode]; } )
@@ -387,7 +352,8 @@ var INDIA = (function() {
 
     function init() {
         setupDOM();
-        fetchData();
+        handleRangeChange();
+        //fetchData();
     }
 
     return { init: init };
@@ -395,7 +361,6 @@ var INDIA = (function() {
 
 
 $(document).ready(INDIA.init);
-
 
 
 var partyNames = {
