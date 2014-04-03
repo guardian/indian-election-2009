@@ -23,7 +23,7 @@ body{
 (min-width:420px) { 
     .imageWrapper{
 		background: url(../images/tablet.png) no-repeat;
-		height:729px;
+		height:783px;
 		max-width:340px;
 		background-size:100%;
 	}
@@ -35,7 +35,7 @@ body{
 (max-width:480px) { 
     .imageWrapper{
 		background: url(../images/mobile@2x.png) no-repeat;
-		height:652px;
+		height:696px;
 		background-size:290px;
 		max-width:290px;
 	}
@@ -45,7 +45,7 @@ body{
 (min-width:540px) { 
     .imageWrapper{
 		background: url(../images/desktop.png) no-repeat;
-		height:564px;
+		height:604px;
 		max-width:590px;
 		background-size:100%;
 	}
