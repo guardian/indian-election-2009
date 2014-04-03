@@ -23,7 +23,6 @@ var INDIA = (function() {
         $incCount.html(outputData.parties.INC);
         renderTable();
         renderPartyChart();
-        console.log(outputData);
     }
 
     /**
@@ -182,7 +181,6 @@ var INDIA = (function() {
                 ];
 
                 var gapPercentage = (constituency.bjpMargin / constituency.totalVotes) * 100;
-                console.log(gapPercentage, constituency.bjpMargin, constituency.totalVotes);
                 constituency.gapPercentage = gapPercentage;
                 bjpWinningConstituencies.push(constituency);
             }
