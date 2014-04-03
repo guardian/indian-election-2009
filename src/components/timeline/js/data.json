@@ -7,7 +7,7 @@
 			"name" : "Jawaharlal Nehru",
 			"picture" : "1395676338195/Jawaharlal-Nehru-in-1947-003.jpg"
 		},
-		"notes": "Optional Note Here"
+		"notes": "Father of Indira Gandhi, grandfather of Rajiv, longest serving Indian PM"
 	},
 	{
 		"startYear":"1964",
@@ -17,7 +17,7 @@
 			"name" : "Lal Bahadur Shastri",
 			"picture" : "1395676573989/Lal-Bahadur-Shastri-003.jpg"
 		},
-		"notes": "Optional Note Here"
+		"notes": ""
 	},
 	{
 		"startYear":"1966",
@@ -27,7 +27,7 @@
 			"name" : "Indira Gandhi",
 			"picture" : "1395677826153/Indira-Gandhi-003.jpg"
 		},
-		"notes": "Optional Note Here"
+		"notes": "Assassinated by her Sikh bodyguard, 1984, after second spell in office"
 	},
 	{
 		"startYear":"1977",
@@ -37,7 +37,7 @@
 			"name" : "Morarji Desai",
 			"picture" : "1395679088694/Morarji-Desai-003.jpg"
 		},
-		"notes": "Optional Note Here"
+		"notes": "Drank his own urine as a health beverage"
 	},
 	{
 		"startYear":"1979",
@@ -47,7 +47,7 @@
 			"name" : "Charan Singh",
 			"picture" : "1395679335014/Charan-Singh-003.jpg"
 		},
-		"notes": "Optional Note Here"
+		"notes": ""
 	},
 	{
 		"startYear":"1980",
@@ -57,7 +57,7 @@
 			"name" : "Indira Gandhi",
 			"picture" : "1395677826153/Indira-Gandhi-003.jpg"
 		},
-		"notes": "Optional Note Here"
+		"notes": "Assassinated by her Sikh bodyguard, 1984, after second spell in office"
 	},
 	{
 		"startYear":"1984",
@@ -67,17 +67,17 @@
 			"name" : "Rajiv Gandhi",
 			"picture" : "1395678584401/Rajiv-Gandhi-003.jpg"
 		},
-		"notes": "Optional Note Here"
+		"notes": "Youngest Indian PM; assassinated by a Tamil Tiger in 1991"
 	},
 	{
 		"startYear":"1989",
 		"endYear":"1990",
 		"leader":"Janata Dal",
 		"primeMinister" :{
-			"name" : "V. P. Singh",
+			"name" : "VP Singh",
 			"picture" : "1395678745300/V.P.-Singh-003.jpg"
 		},
-		"notes": "Optional Note Here"
+		"notes": ""
 	},
 	{
 		"startYear":"1990",
@@ -87,37 +87,37 @@
 			"name" : "Chandra Shekhar",
 			"picture" : "1395678823491/Chandra-Shekhar-003.jpg"
 		},
-		"notes": "Optional Note Here"
+		"notes": ""
 	},
 	{
 		"startYear":"1991",
 		"endYear":"1996",
 		"leader":"INC",
 		"primeMinister" :{
-			"name" : "P. V. Narasimha Rao",
+			"name" : "PV Narasimha Rao",
 			"picture" : "1395679653502/P.V.-Narasimha-Rao-003.jpg"
 		},
-		"notes": "Optional Note Here"
+		"notes": ""
 	},
 	{
 		"startYear":"1996",
 		"endYear":"1997",
 		"leader":"Janata Dal",
 		"primeMinister" :{
-			"name" : "H. D. Deve Gowda",
+			"name" : "HD Deve Gowda",
 			"picture" : "1395679935809/H.D.-Deve-Gowda-003.jpg"
 		},
-		"notes": "Optional Note Here"
+		"notes": ""
 	},
 	{
 		"startYear":"1997",
 		"endYear":"1998",
 		"leader":"Janata Dal",
 		"primeMinister" :{
-			"name" : "I. K. Gujral",
+			"name" : "IK Gujral",
 			"picture" : "1395680010388/Inder-Kumar-Gujral-003.jpg"
 		},
-		"notes": "Optional Note Here"
+		"notes": ""
 	},{
 		"startYear":"1998",
 		"endYear":"2004",
@@ -126,7 +126,7 @@
 			"name" : "Atal Bihari Vajpayee",
 			"picture" : "1395679808850/Atal-Bihari-Vajpayee-003.jpg"
 		},
-		"notes": "Optional Note Here"
+		"notes": ""
 	},{
 		"startYear":"2004",
 		"endYear":"2014",
@@ -135,7 +135,7 @@
 			"name" : "Manmohan Singh",
 			"picture" : "1395680094634/Manmohan-Singh-003.jpg"
 		},
-		"notes": "Optional Note Here"
+		"notes": ""
 	}
 
 
