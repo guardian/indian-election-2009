@@ -253,10 +253,10 @@ var INDIA = (function() {
     function renderPartyChart(){
         var width;
         var screenWidth = $(window).width();
-        if (screenWidth >= 540 && screenWidth < 620) {
-            width = screenWidth - 280;
+        if (screenWidth >= 480 && screenWidth < 620) {
+            width = screenWidth - 180;
         } else if (screenWidth >= 620){
-            width = 620 - 280;
+            width = 620 - 180;
         } else{
             width = screenWidth -20;
         }
@@ -300,8 +300,8 @@ var INDIA = (function() {
         var radius = height;
 
         var colors = {
-            'INC'   : 'rgb(0, 255, 255)',
-            'BJP'   : 'rgb(255, 165, 0)',
+            'INC'   : 'rgb(75, 198, 223)',
+            'BJP'   : 'rgb(255, 187, 0)',
             'CPM'   : 'rgb(255, 0, 0)',
             'BSP'   : 'rgb(0, 0, 255)',
             'SHS'   : 'rgb(255, 165, 0)',

@@ -56,25 +56,26 @@
         <div id="data_wrapper">
             <h1>Swing-o-Meter</h1>
             <h2>What does the House look like with different swings?</h2>
-
+            <div id="swing_slider">
             <input id="slider" type="range" value="0" max="10" step="1" />
 
-            <div class="introduction clearfix">
+            <!-- <div class="introduction clearfix">
                 <h1>The current Lok Sabha</h1>
                 <p>543 elected seats- Congress governs with its coalition partners and unconditional support from the Bahujan Samaj and Samajwadi parties</p>
                 <div class="tooltip"><p class='tooltipStatus'>Hover or tap for details</p></div>
+            </div> -->
+            <p id="swing_label">Swing percentage <span id="swingPercent"></span></p>
             </div>
-
             <div class="pie-chart">
                 <div class="pies"></div>
                 <div class="legend">
-                <p><span class='allianceColor' style='background-color:#005689;'></span>UPA, governing coalition (262 seats)</p>
-                <p><span class='allianceColor' style='background-color:#4490CE;'></span>Supporters of UPA (43 seats)</p>
+                <p><span class='allianceColor' style='background-color:#005689;'></span>Indian National Congres (INC)</p>
+                <p><span class='allianceColor' style='background-color:#4490CE;'></span>BJP</p>
                 </div>
             </div>
 
 
-            <p id="swing_label">Swing percentage <span id="swingPercent"></span></p>
+            
             <!-- <p>INC <span id="incCount"></span> - BJP <span id="bjpCount"></span></p> -->
 
             <div id="taken_container"></div>
