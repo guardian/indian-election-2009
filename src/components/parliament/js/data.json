@@ -1,18 +1,24 @@
 [
 {"Alliance":"UPA, governing coalition","Party":"Indian National Congress","Seats": 206},
 {"Alliance":"UPA, governing coalition","Party":"Nationalist Congress Party","Seats": 8},
-{"Alliance":"UPA, governing coalition","Party":"Other Parties","Seats": 12},
-{"Alliance":"Supporters of UPA","Party":"Samajwadi Party","Seats": 22},
+{"Alliance":"UPA, governing coalition","Party":"Other parties","Seats": 15},
+{"Alliance":"Supporters of UPA","Party":"Samajwadi Party","Seats": 21},
 {"Alliance":"Supporters of UPA","Party":"Bahujan Samaj Party","Seats": 21},
-{"Alliance":"NDA, opposition of UPA","Party":"Bharatiya Janta Party","Seats": 116},
-{"Alliance":"NDA, opposition of UPA","Party":"Janata Dal","Seats": 20},
-{"Alliance":"NDA, opposition of UPA","Party":"Shiv Sena","Seats": 11},
-{"Alliance":"NDA, opposition of UPA","Party":"Other Parties","Seats": 12},
+{"Alliance":"Supporters of UPA","Party":"Rashtriya Janata Dal","Seats": 5},
+{"Alliance":"NDA, opposition coalition","Party":"Bharatiya Janta Party","Seats": 112},
+{"Alliance":"NDA, opposition coalition","Party":"Shiv Sena","Seats": 10},
+{"Alliance":"NDA, opposition coalition","Party":"Telugu Desam Party","Seats": 6},
+{"Alliance":"NDA, opposition coalition","Party":"Other parties","Seats": 8},
+{"Alliance":"Others","Party":"Janata Dal","Seats": 19},
+{"Alliance":"Others","Party":"Trinamool Congress","Seats": 18},
+{"Alliance":"Others","Party":"Dravida Munnetra Kazhagam","Seats": 18},
+
 {"Alliance":"Others","Party":"Communist Party Of India","Seats": 16},
 {"Alliance":"Others","Party":"Biju Janata Dal","Seats": 14},
 {"Alliance":"Others","Party":"All India Anna Dravida Munnetra Kazhagam","Seats": 9},
-{"Alliance":"Others","Party":"Telugu Desam","Seats": 6},
-{"Alliance":"Others","Party":"Other Parties","Seats": 14}
+
+
+{"Alliance":"Others","Party":"Other parties","Seats": 37}
 ]
 
 

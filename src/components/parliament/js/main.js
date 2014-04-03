@@ -19,9 +19,9 @@ var dataAlliances = [
 	{"Alliance":"Others","Seats":26}
 ];
 colors = {
-	"UPA, governing coalition" : "#005689",
+	"UPA, governing coalition" : "#4BC6DF",
 	"Supporters of UPA" : "#4490CE",
-	"NDA, opposition of UPA" : "#6BA83F",
+	"NDA, opposition coalition" : "#FFBB00",
 	"Others" : "#F66980",
 	"Other Parties and Independents" : "#D23E55"
 }

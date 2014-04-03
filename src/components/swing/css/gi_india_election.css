@@ -1,6 +1,7 @@
 body{
     margin:0;
     font-family:"Guardian Agate Sans", Arial;
+    -webkit-font-smoothing:antialiased;
 }
 
 #data_wrapper{

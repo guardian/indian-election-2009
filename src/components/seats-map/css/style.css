@@ -1,6 +1,7 @@
 body{
 	margin:0;
 	color:#333;
+	-webkit-font-smoothing:antialiased;
 }
 .wrapper{
 	background:#F4F4EE;

@@ -2,14 +2,14 @@ var data;
 var firstYear = 1947;
 var lastYear = 2014;
 var w = $(window).width() - 20;
-var h = 250;
+var h = 270;
 var r = 40;
 var pi = Math.PI;
 var colors = {
-	"BJP":"#7D0068",
-	"INC":"#F5644F",
-	"Janata Party":"#6BA83F",
-	"Janata Dal":"#FFBB00",
+	"BJP":"#FFBB00",
+	"INC":"#4BC6DF",
+	"Janata Party":"#F5644F",
+	"Janata Dal":"#6BA83F",
 	"Samajwadi Janata Party":"#D23E55"
 }
 var padding = 12;

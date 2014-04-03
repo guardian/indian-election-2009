@@ -9,12 +9,13 @@ body{
 	height:250px;
 	width:100%;
 	background:#F4F4EE;
+	padding:10px;
 }
 
 .introduction{
 	color:#333;
 	position: relative;
-	padding: 5px 22px 0;
+	padding: 0 22px 0 0;
 }
 
 .introduction p{
@@ -35,16 +36,16 @@ body{
 }
 
 .introduction p.legend .color.BJP{
-	background:#7D0068;
+	background:#FFBB00;
 }
 .introduction p.legend .color.INC{
-	background:#F5644F;
+	background:#4BC6DF;
 }
 .introduction p.legend .color.janataparty{
-	background:#6BA83F;
+	background:#F5644F;
 }
 .introduction p.legend .color.janatadal{
-	background:#FFBB00;
+	background:#6BA83F;
 }
 .introduction p.legend .color.samajwadi{
 	background:#D23E55;
@@ -52,7 +53,7 @@ body{
 .timeline{
 	position:absolute;
 	top:0;	
-	left:12px;
+	left:10px;
 }
 
 h1{
@@ -148,9 +149,10 @@ h1{
 }
 
 .itemDetails p.note{
-	margin-top:0.5em;
+	margin-top:0.1em;
 	margin-bottom:0.3em;
 	color:#999;
+	line-height:1.1em;
 }
 
 
