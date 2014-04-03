@@ -167,18 +167,33 @@ shape-rendering:geometricPrecision;
 }
 
 .legend{
-    text-align:center;
+    text-align:left;
     margin-top:0;
     padding-bottom:8px;
     width:100%;
 }
 
 .legend span{
-    margin-left:5px;
+    
 }
 .legend p{
-    font-size:12px; display:inline;
-    white-space: nowrap;
+    font-size:12px; display:inline-block;
+    float:left;
+    width:33%;
+}
+
+.legend p:nth-child(1){
+    text-align:left;
+    width:36%;
+}
+
+.legend p:nth-child(2){
+    text-align:center;
+    width:30%;
+}
+
+.legend p:nth-child(3){
+    text-align:right;
 }
 
 .tooltip{
