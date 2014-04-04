@@ -243,6 +243,7 @@ shape-rendering:geometricPrecision;
     width:30%;
     position: absolute;
     margin-top:50px;
+    z-index:50;
 }
 }
 
