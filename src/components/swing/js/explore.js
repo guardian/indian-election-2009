@@ -199,7 +199,7 @@ var INDIA = (function() {
         $incCount = $('#incCount');
         $bjpCount = $('#bjpCount');
         $slider = $('#slider');
-        $slider.on('change', handleRangeChange);
+        $slider.on('change touchend', handleRangeChange);
 
         tabelTemplate = $('#table_template').html();
         seatTemplate = $('#seat_template').html();
