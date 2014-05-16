@@ -1,24 +1,65 @@
-[
-{"Alliance":"UPA, governing coalition","Party":"Indian National Congress","Seats": 206},
-{"Alliance":"UPA, governing coalition","Party":"Nationalist Congress Party","Seats": 8},
-{"Alliance":"UPA, governing coalition","Party":"Other parties","Seats": 15},
-{"Alliance":"Supporters of UPA","Party":"Samajwadi Party","Seats": 21},
-{"Alliance":"Supporters of UPA","Party":"Bahujan Samaj Party","Seats": 21},
-{"Alliance":"Supporters of UPA","Party":"Rashtriya Janata Dal","Seats": 5},
-{"Alliance":"NDA, opposition coalition","Party":"Bharatiya Janta Party","Seats": 112},
-{"Alliance":"NDA, opposition coalition","Party":"Shiv Sena","Seats": 10},
-{"Alliance":"NDA, opposition coalition","Party":"Telugu Desam Party","Seats": 6},
-{"Alliance":"NDA, opposition coalition","Party":"Other parties","Seats": 8},
-{"Alliance":"Others","Party":"Janata Dal","Seats": 19},
-{"Alliance":"Others","Party":"Trinamool Congress","Seats": 18},
-{"Alliance":"Others","Party":"Dravida Munnetra Kazhagam","Seats": 18},
+{
+	"2009-data" : [
+		{"Alliance":"Congress and former partners","Party":"Indian National Congress","Seats": 206},
+		{"Alliance":"Congress and former partners","Party":"Nationalist Congress Party","Seats": 8},
+		{"Alliance":"Congress and former partners","Party":"Other parties","Seats": 15},
+		{"Alliance":"Former Congress supporters","Party":"Samajwadi Party","Seats": 21},
+		{"Alliance":"Former Congress supporters","Party":"Bahujan Samaj Party","Seats": 21},
+		{"Alliance":"Former Congress supporters","Party":"Rashtriya Janata Dal","Seats": 5},
+		{"Alliance":"BJP and former partners","Party":"Bharatiya Janta Party","Seats": 112},
+		{"Alliance":"BJP and former partners","Party":"Shiv Sena","Seats": 10},
+		{"Alliance":"BJP and former partners","Party":"Telugu Desam Party","Seats": 6},
+		{"Alliance":"BJP and former partners","Party":"Other parties","Seats": 8},
+		{"Alliance":"Others","Party":"Janata Dal","Seats": 19},
+		{"Alliance":"Others","Party":"Trinamool Congress","Seats": 18},
+		{"Alliance":"Others","Party":"Dravida Munnetra Kazhagam","Seats": 18},
+		{"Alliance":"Others","Party":"Communist Party Of India","Seats": 16},
+		{"Alliance":"Others","Party":"Biju Janata Dal","Seats": 14},
+		{"Alliance":"Others","Party":"All India Anna Dravida Munnetra Kazhagam","Seats": 9},
+		{"Alliance":"Others","Party":"Other parties","Seats": 37}
+	],
+	"2014-data" : [
+		{"Alliance":"BJP and former partners","Party":"Bharatiya Janta Party","Seats": 280},
+		{"Alliance":"BJP and former partners","Party":"Shiv Sena","Seats": 19},
+		{"Alliance":"BJP and former partners","Party":"Telugu Desam Party","Seats": 13},
+		{"Alliance":"BJP and former partners","Party":"Other parties","Seats": 0},
+		{"Alliance":"Congress and former partners","Party":"Indian National Congress","Seats": 45},
+		{"Alliance":"Congress and former partners","Party":"Nationalist Congress Party","Seats": 5},
+		{"Alliance":"Congress and former partners","Party":"Other parties","Seats": 0},
+		{"Alliance":"Former Congress supporters","Party":"Samajwadi Party","Seats": 5},
+		{"Alliance":"Former Congress supporters","Party":"Bahujan Samaj Party","Seats": 0},
+		{"Alliance":"Former Congress supporters","Party":"Rashtriya Janata Dal","Seats": 4},
+		{"Alliance":"Others","Party":"Janata Dal","Seats": 0},
+		{"Alliance":"Others","Party":"Trinamool Congress","Seats": 34},
+		{"Alliance":"Others","Party":"Dravida Munnetra Kazhagam","Seats": 35},
+		{"Alliance":"Others","Party":"Communist Party Of India","Seats": 7},
+		{"Alliance":"Others","Party":"Biju Janata Dal","Seats": 20},
+		{"Alliance":"Others","Party":"All India Anna Dravida Munnetra Kazhagam","Seats": 35},
+		{"Alliance":"Others","Party":"Other parties","Seats": 41}
+	],
+	"alliance-data" : [
+		{
+			"Alliance":"BJP and former partners",
+			"2009-data" : 0,
+			"2014-data" : 0
+		},
+		{
+			"Alliance":"Congress and former partners",
+			"2009-data" : 0,
+			"2014-data" : 0
+		},
+		{
+			"Alliance":"Former Congress supporters",
+			"2009-data" : 0,
+			"2014-data" : 0
+		},
+		{
+			"Alliance":"Others",
+			"2009-data" : 0,
+			"2014-data" : 0
+		}
 
-{"Alliance":"Others","Party":"Communist Party Of India","Seats": 16},
-{"Alliance":"Others","Party":"Biju Janata Dal","Seats": 14},
-{"Alliance":"Others","Party":"All India Anna Dravida Munnetra Kazhagam","Seats": 9},
-
-
-{"Alliance":"Others","Party":"Other parties","Seats": 37}
-]
+	]
+}
 
 

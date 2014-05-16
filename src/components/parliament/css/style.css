@@ -6,7 +6,7 @@ body{
 }
 
 .wrapper{
-	background:#F4F4EE;
+	background:#F6F6F6;
 	max-width:620px;
 	padding:1px 10px 0;
 }
@@ -24,8 +24,40 @@ body{
 
 .pie-chart{
 	position: relative;
-	margin: 10px auto 0;
+	margin: 30px auto 0;
 }
+.pies{
+	margin-top:20px;
+}
+.switch{
+	position: absolute;
+	top:-35px;
+	left:0;
+	z-index:5;
+	border-radius:3px;
+	/*-webkit-transform:translateX(-50%);*/
+	
+}
+.switch div{
+	display:inline-block;
+	font-size:12px;
+	background:#fff;
+	cursor: pointer;
+	padding:8px;
+}
+.switch div:hover{
+	background:#ddd;
+}
+
+.switch div.current{
+	background:#214583;
+	cursor:default;
+	color:#fff;
+}
+
+.switch div.current:hover{
+	background:#214583;
+	}
 
 .alliances{
 	position: absolute;
@@ -46,12 +78,12 @@ body{
 	opacity:0.8;
 }
 
-.parties{
+.results{
 	position:absolute;
 
 
 }
-.parties .slice{
+.results .slice{
 	opacity:1;
 	stroke:#F4F4EE;
 	stroke-width:1;
@@ -59,11 +91,11 @@ body{
 	transform:translateY(10px);
 }
 
-.parties .slice:hover{
+.results .slice:hover{
 	opacity:0.8;
 }
 
-.parties path{
+.results path{
 shape-rendering:geometricPrecision;
 }
 
@@ -98,7 +130,7 @@ shape-rendering:geometricPrecision;
 .tooltip .allianceColor{
 	width: auto;
 	height:auto;
-	margin:0 0 0.5em 0;
+	margin:0 0 0 0;
 	display:block;
 	font-size:12px;
 	line-height:1.1em;
@@ -124,6 +156,13 @@ shape-rendering:geometricPrecision;
 	padding:1px 0 0 0;
 }
 
+.switch{
+
+	top:0px;
+
+	
+}
+
 .introduction{
 	width:210px;
 	float:right;
@@ -140,6 +179,7 @@ shape-rendering:geometricPrecision;
 .pie-chart{
 	margin-left:20px;
 	margin-top:30px;
+	padding-top:1px;
 }
 
 
